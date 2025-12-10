@@ -181,6 +181,10 @@ model Product {
   sellerId            String?
   sellerName          String?
   
+  // Brand relation (for partnered brands)
+  brandId             String?
+  brand               Brand?   @relation("BrandProducts", fields: [brandId], references: [id])
+  
   // Affiliate Link
   affiliateLink       String?  @db.Text
   deepLink            String?  @db.Text
@@ -421,4 +425,128 @@ model SyncLog {
   errors      Json?
   startedAt   DateTime @default(now())
   completedAt DateTime?
+}
+
+// ============================================
+// BRAND OUTREACH MODULE
+// ============================================
+
+model Brand {
+  id              String   @id @default(cuid())
+  
+  // Brand Info
+  name            String
+  tiktokSellerId  String?  @unique
+  tiktokShopName  String?
+  category        String?
+  
+  // Contact Info
+  contactName     String?
+  contactEmail    String?
+  contactPhone    String?
+  website         String?
+  
+  // TikTok Presence
+  tiktokHandle    String?
+  followerCount   Int      @default(0)
+  productCount    Int      @default(0)
+  avgRating       Decimal? @db.Decimal(3, 2)
+  
+  // Current Commission Info
+  currentOpenRate Decimal? @db.Decimal(5, 4)
+  targetRate      Decimal? @db.Decimal(5, 4)  // What we want to negotiate
+  agreedRate      Decimal? @db.Decimal(5, 4)  // What they agreed to
+  
+  // Pipeline Status
+  status          BrandStatus @default(LEAD)
+  priority        BrandPriority @default(MEDIUM)
+  
+  // Notes & History
+  notes           String?  @db.Text
+  lastContactedAt DateTime?
+  nextFollowUpAt  DateTime?
+  
+  // Relations
+  outreachEmails  OutreachEmail[]
+  products        Product[]  @relation("BrandProducts")
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  @@index([status])
+  @@index([priority])
+  @@index([category])
+}
+
+enum BrandStatus {
+  LEAD           // Just identified, not contacted
+  CONTACTED      // First outreach sent
+  RESPONDED      // They replied
+  NEGOTIATING    // Active negotiation
+  AGREED         // They agreed to partnership
+  PARTNERED      // Fully onboarded, products live
+  DECLINED       // They said no
+  UNRESPONSIVE   // No response after multiple attempts
+}
+
+enum BrandPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+model OutreachEmail {
+  id          String   @id @default(cuid())
+  brandId     String
+  brand       Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  
+  // Email Details
+  templateId  String?
+  subject     String
+  body        String   @db.Text
+  
+  // Tracking
+  sentAt      DateTime?
+  openedAt    DateTime?
+  repliedAt   DateTime?
+  
+  // Status
+  status      EmailStatus @default(DRAFT)
+  
+  // Response
+  responseBody String?  @db.Text
+  
+  createdAt   DateTime @default(now())
+  
+  @@index([brandId])
+  @@index([status])
+}
+
+enum EmailStatus {
+  DRAFT
+  SCHEDULED
+  SENT
+  OPENED
+  REPLIED
+  BOUNCED
+}
+
+model EmailTemplate {
+  id          String   @id @default(cuid())
+  
+  name        String
+  subject     String
+  body        String   @db.Text
+  
+  // Template Variables: {{brand_name}}, {{contact_name}}, {{current_rate}}, {{proposed_rate}}, etc.
+  variables   String[] // List of variables used in template
+  
+  // Categorization
+  category    String?  // 'initial_outreach', 'follow_up', 'negotiation', 'onboarding'
+  
+  isActive    Boolean  @default(true)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

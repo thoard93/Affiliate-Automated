@@ -20,6 +20,7 @@ import {
   Shield,
   BarChart3,
   Send,
+  Building2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -27,6 +28,7 @@ const navigation = [
   { name: 'Dashboard', href: '/admin', icon: LayoutDashboard },
   { name: 'Creators', href: '/admin/creators', icon: Users },
   { name: 'Products', href: '/admin/products', icon: Package },
+  { name: 'Brand Outreach', href: '/admin/brands', icon: Building2 },
   { name: 'Commissions', href: '/admin/commissions', icon: DollarSign },
   { name: 'Settings', href: '/admin/settings', icon: Settings },
 ];
