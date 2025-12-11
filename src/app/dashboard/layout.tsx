@@ -99,6 +99,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
                   <button onClick={() => signOut({ callbackUrl: '/' })} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 rounded-md transition-colors">
                     <LogOut className="w-4 h-4" />Sign Out
                   </button>
+                  {(session?.user?.role === 'ADMIN' || session?.user?.role === 'SUPER_ADMIN') && (
+                    <div className="mt-2 pt-2 border-t border-white/5">
+                      <Link href="/admin" className="flex items-center gap-2 px-3 py-2 text-sm text-aa-gold hover:bg-aa-gold/10 rounded-md transition-colors">
+                        <LayoutDashboard className="w-4 h-4" />
+                        Admin View
+                      </Link>
+                    </div>
+                  )}
                 </div>
               )}
             </div>

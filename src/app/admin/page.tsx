@@ -170,53 +170,62 @@ export default function AdminDashboardPage() {
       {/* Main Content Grid */}
       <div className="grid lg:grid-cols-3 gap-6">
         {/* Pending Approvals */}
-        <div className="lg:col-span-2 card">
-          <div className="flex items-center justify-between mb-6">
+        {/* Pending Approvals */}
+        <div className="lg:col-span-2 glass-panel border border-white/5 rounded-xl overflow-hidden">
+          <div className="p-6 flex items-center justify-between border-b border-white/5">
             <div className="flex items-center gap-2">
-              <Clock className="w-5 h-5 text-yellow-400" />
-              <h2 className="text-lg font-semibold text-white">Pending Approvals</h2>
-              <span className="badge bg-yellow-400/10 text-yellow-400">
+              <Clock className="w-5 h-5 text-aa-gold" />
+              <h2 className="text-lg font-bold text-white">Pending Approvals</h2>
+              <span className="badge bg-aa-gold/10 text-aa-gold ml-2">
                 {mockPendingCreators.length}
               </span>
             </div>
             <Link
               href="/admin/creators?status=pending"
-              className="text-sm text-purple-400 hover:underline flex items-center gap-1"
+              className="text-sm text-white/60 hover:text-white flex items-center gap-1 transition-colors"
             >
               View all
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>
 
-          <div className="space-y-3">
-            {mockPendingCreators.map((creator) => (
-              <div
-                key={creator.id}
-                className="flex items-center gap-4 p-4 rounded-lg bg-aa-dark-600"
-              >
-                <div className="w-12 h-12 rounded-full bg-aa-dark-400 flex items-center justify-center">
-                  <span className="text-lg font-medium text-white">
-                    {creator.name[0]}
-                  </span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-white">{creator.name}</h3>
-                  <div className="flex items-center gap-3 text-sm text-white/60">
-                    <span>{creator.discordUsername}</span>
-                    <span>•</span>
-                    <span>{formatNumber(creator.followers)} followers</span>
-                  </div>
-                </div>
-                <div className="flex items-center gap-2">
-                  <button className="p-2 rounded-lg bg-aa-success/10 text-aa-success hover:bg-aa-success/20 transition-colors">
-                    <CheckCircle2 className="w-5 h-5" />
-                  </button>
-                  <button className="p-2 rounded-lg bg-red-500/10 text-red-400 hover:bg-red-500/20 transition-colors">
-                    <XCircle className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-            ))}
+          <div className="table-container">
+            <table className="table w-full">
+              <thead>
+                <tr>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-white/40 uppercase tracking-wider">Creator</th>
+                  <th className="px-6 py-4 text-left text-xs font-semibold text-white/40 uppercase tracking-wider">Discord</th>
+                  <th className="px-6 py-4 text-center text-xs font-semibold text-white/40 uppercase tracking-wider">Followers</th>
+                  <th className="px-6 py-4 text-right text-xs font-semibold text-white/40 uppercase tracking-wider">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {mockPendingCreators.map((creator) => (
+                  <tr key={creator.id} className="hover:bg-white/5 transition-colors">
+                    <td className="px-6 py-4">
+                      <div className="flex items-center gap-3">
+                        <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-sm font-bold text-white">
+                          {creator.name[0]}
+                        </div>
+                        <div className="font-medium text-white">{creator.name}</div>
+                      </div>
+                    </td>
+                    <td className="px-6 py-4 text-white/60 font-mono text-sm">{creator.discordUsername}</td>
+                    <td className="px-6 py-4 text-center text-white/80">{formatNumber(creator.followers)}</td>
+                    <td className="px-6 py-4 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button className="p-1.5 rounded-lg hover:bg-aa-success/20 text-aa-success transition-colors">
+                          <CheckCircle2 className="w-5 h-5" />
+                        </button>
+                        <button className="p-1.5 rounded-lg hover:bg-red-500/20 text-red-400 transition-colors">
+                          <XCircle className="w-5 h-5" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
 
@@ -235,12 +244,12 @@ export default function AdminDashboardPage() {
               >
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center mt-1 ${activity.type === 'creator_approved'
-                      ? 'bg-aa-success/10'
-                      : activity.type === 'product_added'
-                        ? 'bg-aa-orange/10'
-                        : activity.type === 'sale'
-                          ? 'bg-purple-500/10'
-                          : 'bg-aa-gold/10'
+                    ? 'bg-aa-success/10'
+                    : activity.type === 'product_added'
+                      ? 'bg-aa-orange/10'
+                      : activity.type === 'sale'
+                        ? 'bg-purple-500/10'
+                        : 'bg-aa-gold/10'
                     }`}
                 >
                   {activity.type === 'creator_approved' && (
@@ -330,12 +339,12 @@ export default function AdminDashboardPage() {
                   <td>
                     <span
                       className={`w-8 h-8 rounded-full inline-flex items-center justify-center font-bold ${index === 0
-                          ? 'bg-aa-gold/20 text-aa-gold'
-                          : index === 1
-                            ? 'bg-gray-300/20 text-gray-300'
-                            : index === 2
-                              ? 'bg-orange-400/20 text-orange-400'
-                              : 'bg-white/5 text-white/60'
+                        ? 'bg-aa-gold/20 text-aa-gold'
+                        : index === 1
+                          ? 'bg-gray-300/20 text-gray-300'
+                          : index === 2
+                            ? 'bg-orange-400/20 text-orange-400'
+                            : 'bg-white/5 text-white/60'
                         }`}
                     >
                       {index + 1}
