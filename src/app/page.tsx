@@ -15,12 +15,8 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex items-center gap-3">
-              <div className="relative w-10 h-10 overflow-hidden rounded-lg shadow-lg shadow-aa-orange/20">
-                <img
-                  src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg"
-                  alt="AA"
-                  className="w-full h-full object-cover"
-                />
+              <div className="relative w-10 h-10 overflow-hidden rounded-lg shadow-lg shadow-aa-orange/20 flex items-center justify-center bg-gradient-to-br from-aa-orange to-aa-gold">
+                <TrendingUp className="w-6 h-6 text-white" />
               </div>
               <div className="flex flex-col">
                 <span className="font-bold text-white leading-tight tracking-tight">AFFILIATE</span>
