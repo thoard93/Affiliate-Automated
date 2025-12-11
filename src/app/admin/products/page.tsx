@@ -20,35 +20,58 @@ export default function AdminProductsPage() {
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-white">Products</h1>
-          <p className="text-gray-400">{products.length} products in catalog</p>
+          <p className="text-white/60">{products.length} products in catalog</p>
         </div>
-        <Link href="/admin/products/import" className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">Import CSV</Link>
+        <Link
+          href="/admin/products/import"
+          className="btn-primary flex items-center gap-2 px-4 py-2"
+        >
+          Import CSV
+        </Link>
       </div>
-      <div className="bg-gray-800 rounded-xl overflow-hidden">
-        <table className="w-full">
-          <thead className="bg-gray-900">
-            <tr>
-              <th className="px-4 py-3 text-left text-xs text-gray-400 uppercase">Product</th>
-              <th className="px-4 py-3 text-left text-xs text-gray-400 uppercase">Category</th>
-              <th className="px-4 py-3 text-center text-xs text-gray-400 uppercase">Open</th>
-              <th className="px-4 py-3 text-center text-xs text-gray-400 uppercase">AA Rate</th>
-              <th className="px-4 py-3 text-center text-xs text-gray-400 uppercase">Boost</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-700">
-            {products.length === 0 ? (
-              <tr><td colSpan={5} className="px-4 py-8 text-center text-gray-500">No products yet</td></tr>
-            ) : products.map((p: any) => (
-              <tr key={p.id} className="hover:bg-gray-700/50">
-                <td className="px-4 py-3"><div className="text-white font-medium truncate max-w-[300px]">{p.name}</div><div className="text-gray-500 text-xs">{p.tiktokProductId}</div></td>
-                <td className="px-4 py-3"><span className="px-2 py-1 bg-gray-700 rounded text-xs text-gray-300">{p.category}</span></td>
-                <td className="px-4 py-3 text-center text-gray-400">{(p.openCollabRate*100).toFixed(0)}%</td>
-                <td className="px-4 py-3 text-center text-orange-400 font-bold">{(p.aaCommissionRate*100).toFixed(0)}%</td>
-                <td className="px-4 py-3 text-center text-green-400">+{((p.aaCommissionRate-p.openCollabRate)*100).toFixed(0)}%</td>
+
+      <div className="glass-panel overflow-hidden border border-white/5 rounded-xl">
+        <div className="table-container">
+          <table className="table w-full">
+            <thead>
+              <tr>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-white/40 uppercase tracking-wider">Product</th>
+                <th className="px-6 py-4 text-left text-xs font-semibold text-white/40 uppercase tracking-wider">Category</th>
+                <th className="px-6 py-4 text-center text-xs font-semibold text-white/40 uppercase tracking-wider">Open</th>
+                <th className="px-6 py-4 text-center text-xs font-semibold text-white/40 uppercase tracking-wider">AA Rate</th>
+                <th className="px-6 py-4 text-center text-xs font-semibold text-white/40 uppercase tracking-wider">Boost</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-white/5">
+              {products.length === 0 ? (
+                <tr><td colSpan={5} className="px-6 py-12 text-center text-white/40">No products yet</td></tr>
+              ) : products.map((p: any) => (
+                <tr key={p.id} className="hover:bg-white/5 transition-colors">
+                  <td className="px-6 py-4">
+                    <div className="text-white font-medium truncate max-w-[300px]">{p.name}</div>
+                    <div className="text-white/40 text-xs mt-0.5">{p.tiktokProductId}</div>
+                  </td>
+                  <td className="px-6 py-4">
+                    <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/10 text-white/80 border border-white/5">
+                      {p.category}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-center text-white/60">{(p.openCollabRate * 100).toFixed(0)}%</td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-aa-orange to-aa-gold">
+                      {(p.aaCommissionRate * 100).toFixed(0)}%
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-center">
+                    <span className="inline-flex items-center gap-1 font-medium text-green-400">
+                      +{(p.aaCommissionRate - p.openCollabRate > 0 ? (p.aaCommissionRate - p.openCollabRate) * 100 : 0).toFixed(0)}%
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   );
