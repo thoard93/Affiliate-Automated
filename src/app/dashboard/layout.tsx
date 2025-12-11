@@ -40,9 +40,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
     return (
       <div className="min-h-screen bg-aa-dark flex items-center justify-center">
         <div className="flex flex-col items-center gap-4">
-          <div className="w-12 h-12 rounded-xl bg-aa-gradient flex items-center justify-center animate-pulse">
-            <Sparkles className="w-6 h-6 text-white" />
-          </div>
+         <img src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" alt="AA" className="w-12 h-12 rounded-xl animate-pulse" />
           <p className="text-white/60">Loading...</p>
         </div>
       </div>
@@ -77,9 +75,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           {/* Logo */}
           <div className="flex items-center justify-between h-16 px-4 border-b border-white/5">
             <Link href="/dashboard" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-aa-gradient flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-white" />
-              </div>
+              <img src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" alt="AA" className="w-10 h-10 rounded-xl" />
               <div className="flex flex-col">
                 <span className="text-sm font-bold text-white">AFFILIATE</span>
                 <span className="text-xs font-bold text-aa-gold">AUTOMATED</span>
