@@ -79,10 +79,10 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
           <div className="flex items-center justify-between h-16 px-4 border-b border-white/5">
            <Link href="/admin" className="flex items-center gap-3">
               <img 
-                src="/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" 
-                alt="Affiliate Automated" 
-                className="h-10 w-auto"
-              />
+  src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" 
+  alt="Affiliate Automated" 
+  className="h-10 w-auto"
+/>
             </Link>
             <button
               onClick={() => setSidebarOpen(false)}
