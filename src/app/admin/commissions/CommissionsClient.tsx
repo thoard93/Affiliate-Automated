@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { DollarSign, Plus, X } from 'lucide-react';
+import { DollarSign, Plus, X, Download } from 'lucide-react';
 import { formatCurrency, formatDate } from '@/lib/utils';
 import { createManualCommission } from '@/actions/commissions';
 import toast from 'react-hot-toast';
@@ -107,7 +107,13 @@ export default function CommissionsClient({
             <div className="glass-panel overflow-hidden border border-white/5 rounded-xl">
                 <div className="p-4 border-b border-white/5 flex justify-between items-center">
                     <h2 className="font-bold text-white">Recent Transactions</h2>
-                    <button className="btn-secondary text-xs px-3 py-1.5">Download CSV</button>
+                    <button
+                        onClick={() => window.location.href = '/api/admin/commissions/export'}
+                        className="btn-secondary text-xs px-3 py-1.5 flex items-center gap-2"
+                    >
+                        <Download size={14} />
+                        Download CSV
+                    </button>
                 </div>
                 <div className="table-container">
                     <table className="table w-full">
@@ -136,8 +142,8 @@ export default function CommissionsClient({
                                         </td>
                                         <td className="px-6 py-4 text-center">
                                             <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${tx.status === 'PAID' ? 'bg-aa-gold/10 text-aa-gold border-aa-gold/20' :
-                                                    tx.status === 'PENDING' ? 'bg-white/5 text-white/60 border-white/10' :
-                                                        'bg-aa-success/10 text-aa-success border-aa-success/20'
+                                                tx.status === 'PENDING' ? 'bg-white/5 text-white/60 border-white/10' :
+                                                    'bg-aa-success/10 text-aa-success border-aa-success/20'
                                                 }`}>
                                                 {tx.status}
                                             </span>
