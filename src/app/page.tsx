@@ -1,13 +1,13 @@
 import Link from 'next/link';
 import { 
-  Sparkles, 
   TrendingUp, 
   Zap, 
   Shield, 
   Users, 
   BarChart3,
   ArrowRight,
-  CheckCircle2
+  CheckCircle2,
+  Sparkles
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -19,7 +19,6 @@ export default function HomePage() {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
               <img src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" alt="AA" className="w-10 h-10 rounded-xl" />
-              </div>
               <div>
                 <span className="font-bold text-white">AFFILIATE</span>
                 <span className="font-bold text-aa-gold ml-1">AUTOMATED</span>
@@ -97,7 +96,6 @@ export default function HomePage() {
               <div 
                 key={i} 
                 className="card text-center"
-                style={{ animationDelay: `${i * 100}ms` }}
               >
                 <div className="text-3xl font-bold text-gradient mb-1">
                   {stat.value}
@@ -267,7 +265,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-             <img src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" alt="AA" className="w-8 h-8 rounded-lg" />
+              <img src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" alt="AA" className="w-8 h-8 rounded-lg" />
               <span className="text-sm text-white/60">
                 Affiliate Automated • Market Mix Media LLC
               </span>
