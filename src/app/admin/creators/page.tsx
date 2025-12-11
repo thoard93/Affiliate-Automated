@@ -178,297 +178,293 @@ export default function AdminCreatorsPage() {
     // API call to bulk approve
     console.log('Bulk approving:', selectedCreators);
     setSelectedCreators([]);
-    const handleBulkApprove = async () => {
-      // API call to bulk approve
-      console.log('Bulk approving:', selectedCreators);
-      setSelectedCreators([]);
-    };
+  };
 
-    const handleExport = () => {
-      const headers = ['ID', 'Name', 'Email', 'Discord', 'TikTok', 'Status', 'Revenue', 'Commission'];
-      const csvContent = [
-        headers.join(','),
-        ...filteredCreators.map(c => [
-          c.id,
-          `"${c.name}"`,
-          c.email,
-          c.discordUsername,
-          c.tiktokUsername || '',
-          c.status,
-          c.totalRevenue,
-          c.totalCommission
-        ].join(','))
-      ].join('\n');
+  const handleExport = () => {
+    const headers = ['ID', 'Name', 'Email', 'Discord', 'TikTok', 'Status', 'Revenue', 'Commission'];
+    const csvContent = [
+      headers.join(','),
+      ...filteredCreators.map(c => [
+        c.id,
+        `"${c.name}"`,
+        c.email,
+        c.discordUsername,
+        c.tiktokUsername || '',
+        c.status,
+        c.totalRevenue,
+        c.totalCommission
+      ].join(','))
+    ].join('\n');
 
-      const blob = new Blob([csvContent], { type: 'text/csv' });
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `creators-export-${new Date().toISOString().split('T')[0]}.csv`;
-      a.click();
-      window.URL.revokeObjectURL(url);
-      toast.success('Export started!');
-    };
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `creators-export-${new Date().toISOString().split('T')[0]}.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+    toast.success('Export started!');
+  };
 
-    const handleInvite = () => {
-      navigator.clipboard.writeText('https://discord.gg/affiliateautomated');
-      toast.success('Invite link copied to clipboard!');
-    };
+  const handleInvite = () => {
+    navigator.clipboard.writeText('https://discord.gg/affiliateautomated');
+    toast.success('Invite link copied to clipboard!');
+  };
 
-    return (
-      <div className="space-y-6 animate-fade-in">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-          <div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white">Creators</h1>
-            <p className="text-white/60 mt-1">
-              Manage creator accounts and approvals
-            </p>
-          </div>
-          <div className="flex gap-3">
-            <button onClick={handleExport} className="btn-secondary flex items-center gap-2">
-              <Download className="w-4 h-4" />
-              Export
-            </button>
-            <button onClick={handleInvite} className="btn-primary flex items-center gap-2">
-              <UserPlus className="w-4 h-4" />
-              Invite Creator
-            </button>
-          </div>
+  return (
+    <div className="space-y-6 animate-fade-in">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-bold text-white">Creators</h1>
+          <p className="text-white/60 mt-1">
+            Manage creator accounts and approvals
+          </p>
         </div>
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-          <div className="stat-card cursor-pointer hover:border-white/20" onClick={() => setStatusFilter('all')}>
-            <div className="flex items-center gap-3 mb-2">
-              <Users className="w-5 h-5 text-purple-400" />
-              <span className="text-2xl font-bold text-white">{mockCreators.length}</span>
-            </div>
-            <p className="text-sm text-white/60">Total Creators</p>
-          </div>
-          <div className="stat-card cursor-pointer hover:border-yellow-400/30" onClick={() => setStatusFilter('PENDING')}>
-            <div className="flex items-center gap-3 mb-2">
-              <Clock className="w-5 h-5 text-yellow-400" />
-              <span className="text-2xl font-bold text-white">{pendingCount}</span>
-            </div>
-            <p className="text-sm text-white/60">Pending Approval</p>
-          </div>
-          <div className="stat-card cursor-pointer hover:border-aa-success/30" onClick={() => setStatusFilter('APPROVED')}>
-            <div className="flex items-center gap-3 mb-2">
-              <CheckCircle2 className="w-5 h-5 text-aa-success" />
-              <span className="text-2xl font-bold text-white">{approvedCount}</span>
-            </div>
-            <p className="text-sm text-white/60">Active Creators</p>
-          </div>
-          <div className="stat-card">
-            <div className="flex items-center gap-3 mb-2">
-              <LinkIcon className="w-5 h-5 text-aa-orange" />
-              <span className="text-2xl font-bold text-white">
-                {mockCreators.filter((c) => c.tiktokConnected).length}
-              </span>
-            </div>
-            <p className="text-sm text-white/60">TikTok Connected</p>
-          </div>
+        <div className="flex gap-3">
+          <button onClick={handleExport} className="btn-secondary flex items-center gap-2">
+            <Download className="w-4 h-4" />
+            Export
+          </button>
+          <button onClick={handleInvite} className="btn-primary flex items-center gap-2">
+            <UserPlus className="w-4 h-4" />
+            Invite Creator
+          </button>
         </div>
-
-        {/* Filters */}
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="relative flex-1">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
-            <input
-              type="text"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Search by name, email, or Discord..."
-              className="input-field pl-12"
-            />
-          </div>
-          <div className="relative">
-            <select
-              value={statusFilter}
-              onChange={(e) => setStatusFilter(e.target.value)}
-              className="input-field pr-10 appearance-none cursor-pointer min-w-[160px]"
-            >
-              <option value="all">All Status</option>
-              <option value="PENDING">Pending</option>
-              <option value="APPROVED">Approved</option>
-              <option value="REJECTED">Rejected</option>
-              <option value="SUSPENDED">Suspended</option>
-            </select>
-            <Filter className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
-          </div>
-        </div>
-
-        {/* Bulk Actions */}
-        {selectedCreators.length > 0 && (
-          <div className="flex items-center gap-4 p-4 bg-purple-500/10 rounded-lg border border-purple-500/20">
-            <span className="text-sm text-white">
-              {selectedCreators.length} creator(s) selected
-            </span>
-            <div className="flex-1" />
-            <button
-              onClick={handleBulkApprove}
-              className="btn-primary py-2 flex items-center gap-2"
-            >
-              <CheckCircle2 className="w-4 h-4" />
-              Approve Selected
-            </button>
-            <button
-              onClick={() => setSelectedCreators([])}
-              className="btn-ghost"
-            >
-              Clear
-            </button>
-          </div>
-        )}
-
-        {/* Creators Table */}
-        <div className="table-container">
-          <table className="table">
-            <thead>
-              <tr>
-                <th className="w-12">
-                  <input
-                    type="checkbox"
-                    checked={selectedCreators.length === filteredCreators.length && filteredCreators.length > 0}
-                    onChange={handleSelectAll}
-                    className="w-4 h-4 rounded border-white/20 bg-aa-dark-500 text-purple-500 focus:ring-purple-500"
-                  />
-                </th>
-                <th>Creator</th>
-                <th>Status</th>
-                <th>TikTok</th>
-                <th>Followers</th>
-                <th>Sales</th>
-                <th>Commission</th>
-                <th>Joined</th>
-                <th className="w-12"></th>
-              </tr>
-            </thead>
-            <tbody>
-              {filteredCreators.map((creator) => {
-                const status = statusConfig[creator.status as keyof typeof statusConfig];
-                const StatusIcon = status.icon;
-                return (
-                  <tr key={creator.id}>
-                    <td>
-                      <input
-                        type="checkbox"
-                        checked={selectedCreators.includes(creator.id)}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedCreators([...selectedCreators, creator.id]);
-                          } else {
-                            setSelectedCreators(selectedCreators.filter((id) => id !== creator.id));
-                          }
-                        }}
-                        className="w-4 h-4 rounded border-white/20 bg-aa-dark-500 text-purple-500 focus:ring-purple-500"
-                      />
-                    </td>
-                    <td>
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-full bg-aa-dark-400 flex items-center justify-center">
-                          <span className="font-medium text-white">{creator.name[0]}</span>
-                        </div>
-                        <div>
-                          <p className="font-medium text-white">{creator.name}</p>
-                          <div className="flex items-center gap-2 text-xs text-white/40">
-                            <MessageCircle className="w-3 h-3" />
-                            {creator.discordUsername}
-                          </div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <span className={cn('badge', status.bg, status.color)}>
-                        <StatusIcon className="w-3 h-3 mr-1" />
-                        {status.label}
-                      </span>
-                    </td>
-                    <td>
-                      {creator.tiktokConnected ? (
-                        <div className="flex items-center gap-2">
-                          <CheckCircle2 className="w-4 h-4 text-aa-success" />
-                          <span className="text-white text-sm">{creator.tiktokUsername}</span>
-                        </div>
-                      ) : (
-                        <span className="text-white/40 text-sm">Not connected</span>
-                      )}
-                    </td>
-                    <td className="text-white">{formatNumber(creator.followerCount)}</td>
-                    <td className="text-white">{creator.totalSales}</td>
-                    <td className="text-aa-success font-medium">
-                      {formatCurrency(creator.totalCommission)}
-                    </td>
-                    <td className="text-white/60 text-sm">
-                      {formatDate(creator.createdAt, 'MMM d, yyyy')}
-                    </td>
-                    <td>
-                      <div className="relative">
-                        <button
-                          onClick={() => setActionMenuOpen(actionMenuOpen === creator.id ? null : creator.id)}
-                          className="p-2 hover:bg-white/5 rounded-lg transition-colors"
-                        >
-                          <MoreVertical className="w-4 h-4 text-white/40" />
-                        </button>
-
-                        {actionMenuOpen === creator.id && (
-                          <div className="absolute right-0 top-full mt-1 w-48 bg-aa-dark-400 rounded-lg border border-white/10 shadow-lg z-10">
-                            <div className="p-1">
-                              <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/60 hover:text-white hover:bg-white/5 rounded-md">
-                                <Eye className="w-4 h-4" />
-                                View Details
-                              </button>
-                              <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/60 hover:text-white hover:bg-white/5 rounded-md">
-                                <Mail className="w-4 h-4" />
-                                Send Email
-                              </button>
-                              {creator.status === 'PENDING' && (
-                                <>
-                                  <hr className="my-1 border-white/5" />
-                                  <button
-                                    onClick={() => handleApprove(creator.id)}
-                                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-aa-success hover:bg-aa-success/10 rounded-md"
-                                  >
-                                    <CheckCircle2 className="w-4 h-4" />
-                                    Approve
-                                  </button>
-                                  <button
-                                    onClick={() => handleReject(creator.id)}
-                                    className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 rounded-md"
-                                  >
-                                    <XCircle className="w-4 h-4" />
-                                    Reject
-                                  </button>
-                                </>
-                              )}
-                              {creator.status === 'APPROVED' && (
-                                <>
-                                  <hr className="my-1 border-white/5" />
-                                  <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 rounded-md">
-                                    <Ban className="w-4 h-4" />
-                                    Suspend
-                                  </button>
-                                </>
-                              )}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-        </div>
-
-        {filteredCreators.length === 0 && (
-          <div className="text-center py-12">
-            <Users className="w-12 h-12 text-white/20 mx-auto mb-4" />
-            <p className="text-white/60">No creators found</p>
-          </div>
-        )}
       </div>
-    );
-  }
+
+      {/* Stats */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="stat-card cursor-pointer hover:border-white/20" onClick={() => setStatusFilter('all')}>
+          <div className="flex items-center gap-3 mb-2">
+            <Users className="w-5 h-5 text-purple-400" />
+            <span className="text-2xl font-bold text-white">{mockCreators.length}</span>
+          </div>
+          <p className="text-sm text-white/60">Total Creators</p>
+        </div>
+        <div className="stat-card cursor-pointer hover:border-yellow-400/30" onClick={() => setStatusFilter('PENDING')}>
+          <div className="flex items-center gap-3 mb-2">
+            <Clock className="w-5 h-5 text-yellow-400" />
+            <span className="text-2xl font-bold text-white">{pendingCount}</span>
+          </div>
+          <p className="text-sm text-white/60">Pending Approval</p>
+        </div>
+        <div className="stat-card cursor-pointer hover:border-aa-success/30" onClick={() => setStatusFilter('APPROVED')}>
+          <div className="flex items-center gap-3 mb-2">
+            <CheckCircle2 className="w-5 h-5 text-aa-success" />
+            <span className="text-2xl font-bold text-white">{approvedCount}</span>
+          </div>
+          <p className="text-sm text-white/60">Active Creators</p>
+        </div>
+        <div className="stat-card">
+          <div className="flex items-center gap-3 mb-2">
+            <LinkIcon className="w-5 h-5 text-aa-orange" />
+            <span className="text-2xl font-bold text-white">
+              {mockCreators.filter((c) => c.tiktokConnected).length}
+            </span>
+          </div>
+          <p className="text-sm text-white/60">TikTok Connected</p>
+        </div>
+      </div>
+
+      {/* Filters */}
+      <div className="flex flex-col sm:flex-row gap-4">
+        <div className="relative flex-1">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search by name, email, or Discord..."
+            className="input-field pl-12"
+          />
+        </div>
+        <div className="relative">
+          <select
+            value={statusFilter}
+            onChange={(e) => setStatusFilter(e.target.value)}
+            className="input-field pr-10 appearance-none cursor-pointer min-w-[160px]"
+          >
+            <option value="all">All Status</option>
+            <option value="PENDING">Pending</option>
+            <option value="APPROVED">Approved</option>
+            <option value="REJECTED">Rejected</option>
+            <option value="SUSPENDED">Suspended</option>
+          </select>
+          <Filter className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
+        </div>
+      </div>
+
+      {/* Bulk Actions */}
+      {selectedCreators.length > 0 && (
+        <div className="flex items-center gap-4 p-4 bg-purple-500/10 rounded-lg border border-purple-500/20">
+          <span className="text-sm text-white">
+            {selectedCreators.length} creator(s) selected
+          </span>
+          <div className="flex-1" />
+          <button
+            onClick={handleBulkApprove}
+            className="btn-primary py-2 flex items-center gap-2"
+          >
+            <CheckCircle2 className="w-4 h-4" />
+            Approve Selected
+          </button>
+          <button
+            onClick={() => setSelectedCreators([])}
+            className="btn-ghost"
+          >
+            Clear
+          </button>
+        </div>
+      )}
+
+      {/* Creators Table */}
+      <div className="table-container">
+        <table className="table">
+          <thead>
+            <tr>
+              <th className="w-12">
+                <input
+                  type="checkbox"
+                  checked={selectedCreators.length === filteredCreators.length && filteredCreators.length > 0}
+                  onChange={handleSelectAll}
+                  className="w-4 h-4 rounded border-white/20 bg-aa-dark-500 text-purple-500 focus:ring-purple-500"
+                />
+              </th>
+              <th>Creator</th>
+              <th>Status</th>
+              <th>TikTok</th>
+              <th>Followers</th>
+              <th>Sales</th>
+              <th>Commission</th>
+              <th>Joined</th>
+              <th className="w-12"></th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredCreators.map((creator) => {
+              const status = statusConfig[creator.status as keyof typeof statusConfig];
+              const StatusIcon = status.icon;
+              return (
+                <tr key={creator.id}>
+                  <td>
+                    <input
+                      type="checkbox"
+                      checked={selectedCreators.includes(creator.id)}
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedCreators([...selectedCreators, creator.id]);
+                        } else {
+                          setSelectedCreators(selectedCreators.filter((id) => id !== creator.id));
+                        }
+                      }}
+                      className="w-4 h-4 rounded border-white/20 bg-aa-dark-500 text-purple-500 focus:ring-purple-500"
+                    />
+                  </td>
+                  <td>
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full bg-aa-dark-400 flex items-center justify-center">
+                        <span className="font-medium text-white">{creator.name[0]}</span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-white">{creator.name}</p>
+                        <div className="flex items-center gap-2 text-xs text-white/40">
+                          <MessageCircle className="w-3 h-3" />
+                          {creator.discordUsername}
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <span className={cn('badge', status.bg, status.color)}>
+                      <StatusIcon className="w-3 h-3 mr-1" />
+                      {status.label}
+                    </span>
+                  </td>
+                  <td>
+                    {creator.tiktokConnected ? (
+                      <div className="flex items-center gap-2">
+                        <CheckCircle2 className="w-4 h-4 text-aa-success" />
+                        <span className="text-white text-sm">{creator.tiktokUsername}</span>
+                      </div>
+                    ) : (
+                      <span className="text-white/40 text-sm">Not connected</span>
+                    )}
+                  </td>
+                  <td className="text-white">{formatNumber(creator.followerCount)}</td>
+                  <td className="text-white">{creator.totalSales}</td>
+                  <td className="text-aa-success font-medium">
+                    {formatCurrency(creator.totalCommission)}
+                  </td>
+                  <td className="text-white/60 text-sm">
+                    {formatDate(creator.createdAt, 'MMM d, yyyy')}
+                  </td>
+                  <td>
+                    <div className="relative">
+                      <button
+                        onClick={() => setActionMenuOpen(actionMenuOpen === creator.id ? null : creator.id)}
+                        className="p-2 hover:bg-white/5 rounded-lg transition-colors"
+                      >
+                        <MoreVertical className="w-4 h-4 text-white/40" />
+                      </button>
+
+                      {actionMenuOpen === creator.id && (
+                        <div className="absolute right-0 top-full mt-1 w-48 bg-aa-dark-400 rounded-lg border border-white/10 shadow-lg z-10">
+                          <div className="p-1">
+                            <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/60 hover:text-white hover:bg-white/5 rounded-md">
+                              <Eye className="w-4 h-4" />
+                              View Details
+                            </button>
+                            <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-white/60 hover:text-white hover:bg-white/5 rounded-md">
+                              <Mail className="w-4 h-4" />
+                              Send Email
+                            </button>
+                            {creator.status === 'PENDING' && (
+                              <>
+                                <hr className="my-1 border-white/5" />
+                                <button
+                                  onClick={() => handleApprove(creator.id)}
+                                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-aa-success hover:bg-aa-success/10 rounded-md"
+                                >
+                                  <CheckCircle2 className="w-4 h-4" />
+                                  Approve
+                                </button>
+                                <button
+                                  onClick={() => handleReject(creator.id)}
+                                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 rounded-md"
+                                >
+                                  <XCircle className="w-4 h-4" />
+                                  Reject
+                                </button>
+                              </>
+                            )}
+                            {creator.status === 'APPROVED' && (
+                              <>
+                                <hr className="my-1 border-white/5" />
+                                <button className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 rounded-md">
+                                  <Ban className="w-4 h-4" />
+                                  Suspend
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      {filteredCreators.length === 0 && (
+        <div className="text-center py-12">
+          <Users className="w-12 h-12 text-white/20 mx-auto mb-4" />
+          <p className="text-white/60">No creators found</p>
+        </div>
+      )}
+    </div>
+  );
+}

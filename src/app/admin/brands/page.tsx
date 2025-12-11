@@ -21,7 +21,6 @@ import {
   ExternalLink,
   Edit,
   Trash2,
-  Trash2,
   X,
   Loader2,
   Copy,
