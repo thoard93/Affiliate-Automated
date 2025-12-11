@@ -77,14 +77,12 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
         <div className="flex flex-col h-full">
           {/* Logo */}
           <div className="flex items-center justify-between h-16 px-4 border-b border-white/5">
-            <Link href="/admin" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-500 to-aa-orange flex items-center justify-center">
-                <Shield className="w-5 h-5 text-white" />
-              </div>
-              <div className="flex flex-col">
-                <span className="text-sm font-bold text-white">ADMIN</span>
-                <span className="text-xs text-white/40">Affiliate Automated</span>
-              </div>
+           <Link href="/admin" className="flex items-center gap-3">
+              <img 
+                src="/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" 
+                alt="Affiliate Automated" 
+                className="h-10 w-auto"
+              />
             </Link>
             <button
               onClick={() => setSidebarOpen(false)}
