@@ -18,8 +18,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-aa-gradient flex items-center justify-center">
-                <Sparkles className="w-5 h-5 text-white" />
+              <img src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" alt="AA" className="w-10 h-10 rounded-xl" />
               </div>
               <div>
                 <span className="font-bold text-white">AFFILIATE</span>
@@ -268,9 +267,7 @@ export default function HomePage() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-lg bg-aa-gradient flex items-center justify-center">
-                <Sparkles className="w-4 h-4 text-white" />
-              </div>
+             <img src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" alt="AA" className="w-8 h-8 rounded-lg" />
               <span className="text-sm text-white/60">
                 Affiliate Automated • Market Mix Media LLC
               </span>
