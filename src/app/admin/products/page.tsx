@@ -5,22 +5,42 @@ import Link from 'next/link';
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState({
+    page: 1,
+    limit: 50,
+    total: 0,
+    totalPages: 0
+  });
+
+  const fetchProducts = (page: number) => {
+    setLoading(true);
+    fetch(`/api/admin/products?page=${page}&limit=${pagination.limit}`)
+      .then(res => res.json())
+      .then(data => {
+        setProducts(data.products || []);
+        setPagination(prev => ({
+          ...prev,
+          page: data.currentPage || page,
+          total: data.total || 0,
+          totalPages: data.totalPages || 0
+        }));
+      })
+      .catch(err => console.error(err))
+      .finally(() => setLoading(false));
+  };
 
   useEffect(() => {
-    fetch('/api/admin/products')
-      .then(res => res.json())
-      .then(data => setProducts(data.products || []))
-      .finally(() => setLoading(false));
+    fetchProducts(1);
   }, []);
 
-  if (loading) return <div className="flex items-center justify-center min-h-[400px]"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div></div>;
+  if (loading && products.length === 0) return <div className="flex items-center justify-center min-h-[400px]"><div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div></div>;
 
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
         <div>
           <h1 className="text-2xl font-bold text-white">Products</h1>
-          <p className="text-white/60">{products.length} products in catalog</p>
+          <p className="text-white/60">{pagination.total.toLocaleString()} products in catalog</p>
         </div>
         <Link
           href="/admin/products/import"
@@ -53,7 +73,7 @@ export default function AdminProductsPage() {
                   </td>
                   <td className="px-6 py-4">
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-white/10 text-white/80 border border-white/5">
-                      {p.category}
+                      {p.category || 'Other'}
                     </span>
                   </td>
                   <td className="px-6 py-4 text-center text-white/60">{(p.openCollabRate * 100).toFixed(0)}%</td>
@@ -71,6 +91,27 @@ export default function AdminProductsPage() {
               ))}
             </tbody>
           </table>
+        </div>
+
+        {/* Pagination Controls */}
+        <div className="p-4 border-t border-white/5 flex items-center justify-between">
+          <button
+            onClick={() => fetchProducts(pagination.page - 1)}
+            disabled={pagination.page <= 1 || loading}
+            className="btn-secondary px-4 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Previous
+          </button>
+          <span className="text-white/60 text-sm">
+            Page {pagination.page} of {pagination.totalPages}
+          </span>
+          <button
+            onClick={() => fetchProducts(pagination.page + 1)}
+            disabled={pagination.page >= pagination.totalPages || loading}
+            className="btn-secondary px-4 py-2 text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>
