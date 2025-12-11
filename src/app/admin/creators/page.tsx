@@ -349,14 +349,3 @@ export default function AdminCreatorsPage() {
     </div>
   );
 }
-{
-  filteredCreators.length === 0 && (
-    <div className="text-center py-12">
-      <Users className="w-12 h-12 text-white/20 mx-auto mb-4" />
-      <p className="text-white/60">No creators found</p>
-    </div>
-  )
-}
-    </div >
-  );
-}
