@@ -5,7 +5,7 @@ export const dynamic = 'force-dynamic';
 import { Suspense, useState } from 'react';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
-import { Sparkles, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 
 function SignInForm() {
   const searchParams = useSearchParams();
@@ -22,8 +22,8 @@ function SignInForm() {
     <div className="min-h-screen bg-aa-dark flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-aa-gradient mb-4">
-            <Sparkles className="w-8 h-8 text-white" />
+          <div className="inline-flex items-center justify-center mb-4">
+            <img src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" alt="Affiliate Automated" className="h-16 w-auto" />
           </div>
           <h1 className="text-2xl font-bold text-white mb-2">Welcome to Affiliate Automated</h1>
           <p className="text-white/60">Sign in to access your creator dashboard</p>
