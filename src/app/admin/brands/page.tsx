@@ -21,8 +21,10 @@ import {
   ExternalLink,
   Edit,
   Trash2,
+  Trash2,
   X,
   Loader2,
+  Copy,
 } from 'lucide-react';
 import { cn, formatPercent, formatDate, formatRelativeTime } from '@/lib/utils';
 import toast from 'react-hot-toast';
@@ -94,7 +96,7 @@ export default function BrandsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
   const [priorityFilter, setPriorityFilter] = useState('all');
-  
+
   // Modal states
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEmailModal, setShowEmailModal] = useState(false);
@@ -266,6 +268,20 @@ export default function BrandsPage() {
       }
     } catch (error) {
       toast.error('Failed to send email');
+    }
+  };
+
+  const handleStartProposal = (brand: Brand) => {
+    const textToCopy = brand.tiktokShopName || brand.shopCode || brand.name;
+    navigator.clipboard.writeText(textToCopy);
+    toast.success('Shop name copied to clipboard!');
+
+    // Open TikTok Partner Center in new tab
+    window.open('https://partner.us.tiktokshop.com/seller/contract/create', '_blank');
+
+    // Prompt to update status
+    if (confirm('Did you send the proposal? Click OK to mark as Contacted.')) {
+      handleUpdateBrand(brand.id, { status: 'CONTACTED', lastContactedAt: new Date().toISOString() });
     }
   };
 
@@ -525,12 +541,21 @@ export default function BrandsPage() {
                     {/* Quick Status Update */}
                     <div className="flex flex-wrap gap-2 mt-4">
                       {brand.status === 'LEAD' && (
-                        <button
-                          onClick={() => openEmailModal(brand)}
-                          className="text-xs px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full hover:bg-blue-500/20"
-                        >
-                          Send First Email
-                        </button>
+                        <>
+                          <button
+                            onClick={() => openEmailModal(brand)}
+                            className="text-xs px-3 py-1 bg-blue-500/10 text-blue-400 rounded-full hover:bg-blue-500/20"
+                          >
+                            Send First Email
+                          </button>
+                          <button
+                            onClick={() => handleStartProposal(brand)}
+                            className="text-xs px-3 py-1 bg-aa-orange/10 text-aa-orange rounded-full hover:bg-aa-orange/20 flex items-center gap-1"
+                          >
+                            <Copy className="w-3 h-3" />
+                            Start Proposal
+                          </button>
+                        </>
                       )}
                       {brand.status === 'CONTACTED' && (
                         <>
@@ -587,7 +612,8 @@ export default function BrandsPage() {
             );
           })}
         </div>
-      )}
+      )
+      }
 
       {/* Add Brand Modal */}
       {showAddModal && (
