@@ -234,15 +234,14 @@ export default function AdminDashboardPage() {
                 className="flex items-start gap-3 pb-4 border-b border-white/5 last:border-0 last:pb-0"
               >
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    activity.type === 'creator_approved'
+                  className={`w-8 h-8 rounded-full flex items-center justify-center mt-1 ${activity.type === 'creator_approved'
                       ? 'bg-aa-success/10'
                       : activity.type === 'product_added'
-                      ? 'bg-aa-orange/10'
-                      : activity.type === 'sale'
-                      ? 'bg-purple-500/10'
-                      : 'bg-aa-gold/10'
-                  }`}
+                        ? 'bg-aa-orange/10'
+                        : activity.type === 'sale'
+                          ? 'bg-purple-500/10'
+                          : 'bg-aa-gold/10'
+                    }`}
                 >
                   {activity.type === 'creator_approved' && (
                     <CheckCircle2 className="w-4 h-4 text-aa-success" />
@@ -330,15 +329,14 @@ export default function AdminDashboardPage() {
                 <tr key={creator.id}>
                   <td>
                     <span
-                      className={`w-8 h-8 rounded-full inline-flex items-center justify-center font-bold ${
-                        index === 0
+                      className={`w-8 h-8 rounded-full inline-flex items-center justify-center font-bold ${index === 0
                           ? 'bg-aa-gold/20 text-aa-gold'
                           : index === 1
-                          ? 'bg-gray-300/20 text-gray-300'
-                          : index === 2
-                          ? 'bg-orange-400/20 text-orange-400'
-                          : 'bg-white/5 text-white/60'
-                      }`}
+                            ? 'bg-gray-300/20 text-gray-300'
+                            : index === 2
+                              ? 'bg-orange-400/20 text-orange-400'
+                              : 'bg-white/5 text-white/60'
+                        }`}
                     >
                       {index + 1}
                     </span>
