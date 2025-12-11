@@ -271,7 +271,7 @@ export default function BrandsPage() {
   };
 
   const handleStartProposal = (brand: Brand) => {
-    const textToCopy = brand.tiktokShopName || brand.shopCode || brand.name;
+    const textToCopy = brand.tiktokShopName || brand.name;
     navigator.clipboard.writeText(textToCopy);
     toast.success('Shop name copied to clipboard!');
 
