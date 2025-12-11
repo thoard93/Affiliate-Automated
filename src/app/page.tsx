@@ -18,6 +18,10 @@ export default function HomePage() {
               <div className="relative w-10 h-10 overflow-hidden rounded-lg shadow-lg shadow-aa-orange/20 flex items-center justify-center bg-gradient-to-br from-aa-orange to-aa-gold">
                 <TrendingUp className="w-6 h-6 text-white" />
               </div>
+              <div className="flex flex-col">
+                <span className="font-bold text-white leading-tight tracking-tight">AFFILIATE</span>
+                <span className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-aa-orange to-aa-gold text-xs tracking-widest leading-tight">AUTOMATED</span>
+              </div>
             </div>
             <div className="flex items-center gap-6">
               <Link href="/auth/signin" className="hidden sm:block text-white/70 hover:text-white transition-colors font-medium">Sign In</Link>
