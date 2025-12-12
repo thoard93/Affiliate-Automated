@@ -13,6 +13,7 @@ export async function GET(req: NextRequest) {
                         user: true,
                     },
                 },
+                product: true,
             },
             orderBy: {
                 createdAt: 'desc',
@@ -28,11 +29,11 @@ export async function GET(req: NextRequest) {
                 format(new Date(comm.createdAt), 'yyyy-MM-dd HH:mm:ss'),
                 comm.creator.user.name || 'Unknown',
                 comm.creator.user.email || '',
-                comm.type,
-                comm.amount.toString(),
+                comm.eventType,
+                comm.commissionAmount.toString(),
                 comm.status,
-                comm.productName || 'N/A',
-                comm.orderId || 'N/A',
+                comm.product?.name || 'N/A',
+                comm.tiktokOrderId || 'N/A',
             ]);
         });
 
