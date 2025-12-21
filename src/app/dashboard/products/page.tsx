@@ -13,6 +13,7 @@ import {
   List,
   SortAsc,
   X,
+  Sparkles,
 } from 'lucide-react';
 import { formatCurrency, formatNumber, formatPercent, cn } from '@/lib/utils';
 
