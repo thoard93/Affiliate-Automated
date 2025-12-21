@@ -579,5 +579,3 @@ function ProductListItem({
     </div>
   );
 }
-  );
-}

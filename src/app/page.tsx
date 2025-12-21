@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { TrendingUp, Zap, Shield, Users, BarChart3, ArrowRight, CheckCircle2, Sparkles, Star } from 'lucide-react';
+import { TrendingUp, Zap, Shield, Users, BarChart3, ArrowRight, CheckCircle2, Sparkles, Star, ChevronDown, Package } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 export default function HomePage() {
   return (
@@ -187,11 +188,5 @@ export default function HomePage() {
         </div>
       </footer>
     </div>
-  );
-}
-
-// Helper icons needed but not imported
-import { ChevronDown, Package } from 'lucide-react';
-import { cn } from '@/lib/utils';
   );
 }
