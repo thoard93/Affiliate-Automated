@@ -120,256 +120,290 @@ export default function EarningsPage() {
   );
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+    <div className="space-y-10 animate-fade-in">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">Earnings</h1>
-          <p className="text-white/60 mt-1">
-            Track your commissions and payouts
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Financial <span className="text-gradient">Overview</span>
+          </h1>
+          <p className="text-white/40 mt-2 font-medium">
+            Track your commission history and upcoming payouts.
           </p>
         </div>
-        <button className="btn-secondary flex items-center gap-2 self-start">
+        <button className="btn-secondary flex items-center gap-2.5 px-6 h-12 hover:bg-white/5 transition-all">
           <Download className="w-4 h-4" />
-          Export Report
+          <span className="font-bold uppercase tracking-widest text-xs">Export Report</span>
         </button>
       </div>
 
-      {/* Stats Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <div className="stat-card">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-lg bg-aa-success/10 flex items-center justify-center">
-              <DollarSign className="w-5 h-5 text-aa-success" />
+      {/* Stats Cards Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="stat-card group">
+          <div className="flex items-center justify-between mb-6">
+            <div className="w-12 h-12 rounded-xl bg-aa-success/10 flex items-center justify-center border border-aa-success/20 group-hover:scale-110 transition-all duration-500">
+              <DollarSign className="w-6 h-6 text-aa-success" />
             </div>
           </div>
-          <div className="stat-value">{formatCurrency(mockEarningsSummary.totalEarnings)}</div>
-          <div className="stat-label">Total Earnings</div>
+          <div className="stat-value text-3xl font-black mb-1">{formatCurrency(mockEarningsSummary.totalEarnings)}</div>
+          <div className="stat-label font-bold text-white/30 uppercase tracking-widest text-[10px]">Total Revenue</div>
         </div>
 
-        <div className="stat-card">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-lg bg-yellow-400/10 flex items-center justify-center">
-              <Clock className="w-5 h-5 text-yellow-400" />
+        <div className="stat-card group">
+          <div className="flex items-center justify-between mb-6">
+            <div className="w-12 h-12 rounded-xl bg-yellow-400/10 flex items-center justify-center border border-yellow-400/20 group-hover:scale-110 transition-all duration-500">
+              <Clock className="w-6 h-6 text-yellow-400" />
             </div>
+            <span className="text-[10px] font-bold text-yellow-400 uppercase tracking-widest animate-pulse">Pending Review</span>
           </div>
-          <div className="stat-value">{formatCurrency(mockEarningsSummary.pendingEarnings)}</div>
-          <div className="stat-label">Pending</div>
+          <div className="stat-value text-3xl font-black mb-1">{formatCurrency(mockEarningsSummary.pendingEarnings)}</div>
+          <div className="stat-label font-bold text-white/30 uppercase tracking-widest text-[10px]">Locked Commissions</div>
         </div>
 
-        <div className="stat-card">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-lg bg-aa-orange/10 flex items-center justify-center">
-              <TrendingUp className="w-5 h-5 text-aa-orange" />
+        <div className="stat-card group relative overflow-hidden">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-aa-orange/5 blur-3xl rounded-full -mr-16 -mt-16" />
+          <div className="flex items-center justify-between mb-6 relative z-10">
+            <div className="w-12 h-12 rounded-xl bg-aa-orange/10 flex items-center justify-center border border-aa-orange/20 group-hover:scale-110 transition-all duration-500">
+              <TrendingUp className="w-6 h-6 text-aa-orange" />
             </div>
-            <span className="stat-change-positive flex items-center gap-1">
-              <TrendingUp className="w-3 h-3" />
-              {mockEarningsSummary.monthlyChange}%
-            </span>
+            <div className="flex flex-col items-end">
+              <span className="stat-change-positive font-black">+{mockEarningsSummary.monthlyChange}%</span>
+              <span className="text-[9px] font-bold text-white/30 uppercase tracking-widest mt-1">Growth</span>
+            </div>
           </div>
-          <div className="stat-value">{formatCurrency(mockEarningsSummary.thisMonth)}</div>
-          <div className="stat-label">This Month</div>
+          <div className="stat-value text-3xl font-black mb-1 relative z-10">{formatCurrency(mockEarningsSummary.thisMonth)}</div>
+          <div className="stat-label font-bold text-white/30 uppercase tracking-widest text-[10px] relative z-10">Earnings This Month</div>
         </div>
 
-        <div className="stat-card">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center">
-              <CheckCircle2 className="w-5 h-5 text-purple-400" />
+        <div className="stat-card group">
+          <div className="flex items-center justify-between mb-6">
+            <div className="w-12 h-12 rounded-xl bg-aa-gold/10 flex items-center justify-center border border-aa-gold/20 group-hover:scale-110 transition-all duration-500">
+              <CheckCircle2 className="w-6 h-6 text-aa-gold" />
             </div>
           </div>
-          <div className="stat-value">{formatCurrency(mockEarningsSummary.paidEarnings)}</div>
-          <div className="stat-label">Total Paid Out</div>
+          <div className="stat-value text-3xl font-black mb-1">{formatCurrency(mockEarningsSummary.paidEarnings)}</div>
+          <div className="stat-label font-bold text-white/30 uppercase tracking-widest text-[10px]">Successfully Withdrawn</div>
         </div>
       </div>
 
-      {/* Tabs */}
-      <div className="flex gap-2 p-1 bg-aa-dark-500 rounded-lg w-fit">
-        <button
-          onClick={() => setActiveTab('commissions')}
-          className={cn(
-            'px-6 py-2.5 rounded-md text-sm font-medium transition-all',
-            activeTab === 'commissions'
-              ? 'bg-aa-orange text-white shadow-aa'
-              : 'text-white/60 hover:text-white'
-          )}
-        >
-          Commissions
-        </button>
-        <button
-          onClick={() => setActiveTab('payouts')}
-          className={cn(
-            'px-6 py-2.5 rounded-md text-sm font-medium transition-all',
-            activeTab === 'payouts'
-              ? 'bg-aa-orange text-white shadow-aa'
-              : 'text-white/60 hover:text-white'
-          )}
-        >
-          Payouts
-        </button>
-      </div>
-
-      {activeTab === 'commissions' ? (
-        <>
-          {/* Filters */}
-          <div className="flex flex-wrap gap-4">
-            <div className="relative">
-              <select
-                value={dateRange}
-                onChange={(e) => setDateRange(e.target.value)}
-                className="input-field pr-10 appearance-none cursor-pointer"
-              >
-                <option value="7d">Last 7 days</option>
-                <option value="30d">Last 30 days</option>
-                <option value="90d">Last 90 days</option>
-                <option value="all">All time</option>
-              </select>
-              <Calendar className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
-            </div>
-
-            <div className="relative">
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="input-field pr-10 appearance-none cursor-pointer"
-              >
-                <option value="all">All Status</option>
-                <option value="PENDING">Pending</option>
-                <option value="CONFIRMED">Confirmed</option>
-                <option value="PAID">Paid</option>
-                <option value="CANCELLED">Cancelled</option>
-              </select>
-              <Filter className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
-            </div>
+      {/* Tabs / Segmented Control */}
+      <div className="flex flex-col gap-6">
+        <div className="flex items-center justify-between border-b border-white/5 pb-1">
+          <div className="flex gap-8">
+            <button
+              onClick={() => setActiveTab('commissions')}
+              className={cn(
+                'pb-4 text-sm font-bold uppercase tracking-[0.2em] transition-all relative',
+                activeTab === 'commissions'
+                  ? 'text-aa-orange'
+                  : 'text-white/30 hover:text-white/60'
+              )}
+            >
+              Commissions
+              {activeTab === 'commissions' && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-aa-orange shadow-[0_0_12px_rgba(255,107,0,0.5)]" />
+              )}
+            </button>
+            <button
+              onClick={() => setActiveTab('payouts')}
+              className={cn(
+                'pb-4 text-sm font-bold uppercase tracking-[0.2em] transition-all relative',
+                activeTab === 'payouts'
+                  ? 'text-aa-orange'
+                  : 'text-white/30 hover:text-white/60'
+              )}
+            >
+              Payout History
+              {activeTab === 'payouts' && (
+                <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-aa-orange shadow-[0_0_12px_rgba(255,107,0,0.5)]" />
+              )}
+            </button>
           </div>
+        </div>
 
-          {/* Commissions Table */}
-          <div className="table-container">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Order</th>
-                  <th>Product</th>
-                  <th>Order Amount</th>
-                  <th>Rate</th>
-                  <th>Commission</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredCommissions.map((commission) => {
-                  const status = statusConfig[commission.status as keyof typeof statusConfig];
-                  const StatusIcon = status.icon;
-                  return (
-                    <tr key={commission.id}>
-                      <td>
-                        <span className="font-mono text-xs text-white/60">
-                          {commission.orderId}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-aa-dark-400 flex items-center justify-center">
-                            <Package className="w-5 h-5 text-white/20" />
-                          </div>
-                          <span className="font-medium text-white truncate max-w-[200px]">
-                            {commission.productName}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="text-white">
-                        {formatCurrency(commission.orderAmount)}
-                      </td>
-                      <td className="text-aa-orange">
-                        {(commission.commissionRate * 100).toFixed(0)}%
-                      </td>
-                      <td className="text-aa-success font-medium">
-                        {formatCurrency(commission.commissionAmount)}
-                      </td>
-                      <td>
-                        <span className={cn('badge', status.bg, status.color)}>
-                          <StatusIcon className="w-3 h-3 mr-1" />
-                          {status.label}
-                        </span>
-                      </td>
-                      <td className="text-white/60">
-                        {formatDate(commission.createdAt, 'MMM d, h:mm a')}
-                      </td>
+        {activeTab === 'commissions' ? (
+          <div className="space-y-6 animate-fade-in-up">
+            {/* Filters Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="relative group">
+                  <select
+                    value={dateRange}
+                    onChange={(e) => setDateRange(e.target.value)}
+                    className="h-11 pl-4 pr-10 bg-aa-bg-secondary/40 border border-white/10 rounded-xl text-sm font-bold text-white/60 focus:text-white focus:border-aa-orange/40 focus:bg-aa-bg-secondary transition-all appearance-none cursor-pointer outline-none"
+                  >
+                    <option value="7d text-black">Last 7 days</option>
+                    <option value="30d text-black">Last 30 days</option>
+                    <option value="90d text-black">Last 90 days</option>
+                    <option value="all text-black">All time</option>
+                  </select>
+                  <Calendar className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none group-hover:text-aa-orange transition-colors" />
+                </div>
+
+                <div className="relative group">
+                  <select
+                    value={statusFilter}
+                    onChange={(e) => setStatusFilter(e.target.value)}
+                    className="h-11 pl-4 pr-10 bg-aa-bg-secondary/40 border border-white/10 rounded-xl text-sm font-bold text-white/60 focus:text-white focus:border-aa-orange/40 focus:bg-aa-bg-secondary transition-all appearance-none cursor-pointer outline-none"
+                  >
+                    <option value="all text-black">All Status</option>
+                    <option value="PENDING text-black">Pending</option>
+                    <option value="CONFIRMED text-black">Confirmed</option>
+                    <option value="PAID text-black">Paid</option>
+                    <option value="CANCELLED text-black">Cancelled</option>
+                  </select>
+                  <Filter className="absolute right-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/30 pointer-events-none group-hover:text-aa-orange transition-colors" />
+                </div>
+              </div>
+              <p className="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em]">
+                Found {filteredCommissions.length} Transactions
+              </p>
+            </div>
+
+            {/* Commissions List / Table */}
+            <div className="card p-0 overflow-hidden border-white/5">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-white/5 bg-white/[0.02]">
+                      <th className="px-6 py-4 text-[10px] font-black text-white/30 uppercase tracking-widest">Transaction / Product</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-white/30 uppercase tracking-widest text-right">Order</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-white/30 uppercase tracking-widest text-right">Rate</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-white/30 uppercase tracking-widest text-right">Commission</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-white/30 uppercase tracking-widest text-center">Status</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-white/30 uppercase tracking-widest text-right">Date</th>
                     </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                  </thead>
+                  <tbody className="divide-y divide-white/[0.02]">
+                    {filteredCommissions.map((commission) => {
+                      const status = statusConfig[commission.status as keyof typeof statusConfig];
+                      const StatusIcon = status.icon;
+                      return (
+                        <tr key={commission.id} className="group hover:bg-white/[0.02] transition-colors">
+                          <td className="px-6 py-5">
+                            <div className="flex items-center gap-4">
+                              <div className="w-10 h-10 rounded-lg bg-white/5 border border-white/5 flex items-center justify-center group-hover:border-aa-orange/20 transition-colors">
+                                <Package className="w-5 h-5 text-white/20 group-hover:text-aa-orange transition-colors" />
+                              </div>
+                              <div className="min-w-0">
+                                <p className="text-sm font-bold text-white truncate max-w-[280px] group-hover:text-aa-orange transition-colors">
+                                  {commission.productName}
+                                </p>
+                                <p className="text-[10px] font-mono text-white/20 mt-0.5">{commission.orderId}</p>
+                              </div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-5 text-right font-black text-white/80">
+                            {formatCurrency(commission.orderAmount)}
+                          </td>
+                          <td className="px-6 py-5 text-right font-black text-aa-orange">
+                            {(commission.commissionRate * 100).toFixed(0)}%
+                          </td>
+                          <td className="px-6 py-5 text-right">
+                            <span className="text-base font-black text-aa-success">
+                              {formatCurrency(commission.commissionAmount)}
+                            </span>
+                          </td>
+                          <td className="px-6 py-5">
+                            <div className="flex justify-center">
+                              <span className={cn('flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest', status.bg, status.color)}>
+                                <StatusIcon className="w-3 h-3" />
+                                {status.label}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-6 py-5 text-right text-xs font-bold text-white/30">
+                            {formatDate(commission.createdAt, 'MMM d, h:mm a')}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                  </tbody>
+                </table>
+              </div>
 
-          {filteredCommissions.length === 0 && (
-            <div className="text-center py-12">
-              <DollarSign className="w-12 h-12 text-white/20 mx-auto mb-4" />
-              <p className="text-white/60">No commissions found</p>
-            </div>
-          )}
-        </>
-      ) : (
-        /* Payouts Tab */
-        <>
-          <div className="table-container">
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>Payout ID</th>
-                  <th>Amount</th>
-                  <th>Method</th>
-                  <th>Status</th>
-                  <th>Date</th>
-                </tr>
-              </thead>
-              <tbody>
-                {mockPayouts.map((payout) => (
-                  <tr key={payout.id}>
-                    <td>
-                      <span className="font-mono text-xs text-white/60">
-                        PAY-{payout.id.padStart(6, '0')}
-                      </span>
-                    </td>
-                    <td className="text-aa-success font-semibold text-lg">
-                      {formatCurrency(payout.amount)}
-                    </td>
-                    <td className="text-white">{payout.method}</td>
-                    <td>
-                      <span className="badge bg-aa-success/10 text-aa-success">
-                        <CheckCircle2 className="w-3 h-3 mr-1" />
-                        Completed
-                      </span>
-                    </td>
-                    <td className="text-white/60">
-                      {formatDate(payout.processedAt, 'MMM d, yyyy')}
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-
-          {/* Next Payout Info */}
-          <div className="card border-aa-orange/20">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-xl bg-aa-orange/10 flex items-center justify-center">
-                <Calendar className="w-6 h-6 text-aa-orange" />
-              </div>
-              <div className="flex-1">
-                <h3 className="font-semibold text-white">Next Payout</h3>
-                <p className="text-sm text-white/60">
-                  Estimated January 1, 2025 • {formatCurrency(mockEarningsSummary.pendingEarnings)} pending
-                </p>
-              </div>
-              <div className="text-right">
-                <p className="text-sm text-white/60">Minimum payout</p>
-                <p className="font-medium text-white">$50.00</p>
-              </div>
+              {filteredCommissions.length === 0 && (
+                <div className="flex flex-col items-center justify-center py-20 text-center opacity-40">
+                  <DollarSign className="w-12 h-12 text-white/20 mb-4" />
+                  <p className="text-sm font-bold uppercase tracking-widest">No commissions found</p>
+                </div>
+              )}
             </div>
           </div>
-        </>
-      )}
+        ) : (
+          /* Payouts Tab */
+          <div className="space-y-8 animate-fade-in-up">
+            {/* Payout Summary Card */}
+            <div className="card relative overflow-hidden group border-aa-orange/20 bg-aa-orange/5">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-aa-orange/10 blur-[100px] rounded-full -mr-32 -mt-32 transition-transform duration-700 group-hover:scale-125" />
+              <div className="relative z-10 flex flex-col md:flex-row items-center gap-8 py-2">
+                <div className="w-16 h-16 rounded-2xl bg-aa-orange/10 flex items-center justify-center border border-aa-orange/30 shadow-2xl shadow-aa-orange/20">
+                  <Calendar className="w-8 h-8 text-aa-orange animate-pulse" />
+                </div>
+                <div className="flex-1 text-center md:text-left">
+                  <h3 className="text-xl font-black text-white mb-1">Next Expected Payment</h3>
+                  <p className="text-sm font-bold text-white/40 uppercase tracking-widest">
+                    Scheduled for Jan 01, 2025 • Approx. {formatCurrency(mockEarningsSummary.pendingEarnings)}
+                  </p>
+                </div>
+                <div className="text-center md:text-right px-8 py-4 bg-white/5 rounded-2xl border border-white/5">
+                  <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.2em] mb-1">Threshold Status</p>
+                  <p className="text-2xl font-black text-aa-success">$50.00 Minimum</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Payouts Table */}
+            <div className="card p-0 overflow-hidden border-white/5">
+              <div className="overflow-x-auto">
+                <table className="w-full text-left border-collapse">
+                  <thead>
+                    <tr className="border-b border-white/5 bg-white/[0.02]">
+                      <th className="px-6 py-4 text-[10px] font-black text-white/30 uppercase tracking-widest">Payout Reference</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-white/30 uppercase tracking-widest">Payment Method</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-white/30 uppercase tracking-widest text-center">Status</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-white/30 uppercase tracking-widest text-right">Amount</th>
+                      <th className="px-6 py-4 text-[10px] font-black text-white/30 uppercase tracking-widest text-right">Processed On</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-white/[0.02]">
+                    {mockPayouts.map((payout) => (
+                      <tr key={payout.id} className="group hover:bg-white/[0.02] transition-colors">
+                        <td className="px-6 py-6">
+                          <span className="font-mono text-xs font-bold text-white/50 group-hover:text-aa-orange transition-colors">
+                            PAY-{payout.id.padStart(6, '0')}
+                          </span>
+                        </td>
+                        <td className="px-6 py-6">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 rounded-full bg-aa-gold" />
+                            <span className="text-sm font-black text-white/80">{payout.method}</span>
+                          </div>
+                        </td>
+                        <td className="px-6 py-6 text-center">
+                          <span className="px-3 py-1.5 bg-aa-success/10 border border-aa-success/20 rounded-lg text-[10px] font-black text-aa-success uppercase tracking-widest">
+                            Completed
+                          </span>
+                        </td>
+                        <td className="px-6 py-6 text-right">
+                          <span className="text-xl font-black text-white group-hover:text-aa-success transition-colors">
+                            {formatCurrency(payout.amount)}
+                          </span>
+                        </td>
+                        <td className="px-6 py-6 text-right text-xs font-bold text-white/30">
+                          {formatDate(payout.processedAt, 'MMM d, yyyy')}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
+  );
+}
   );
 }

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import { redirect } from 'next/navigation';
-import { LayoutDashboard, Package, DollarSign, Settings, LogOut, Menu, X, Bell, ChevronDown, ExternalLink, CheckCircle2, AlertCircle } from 'lucide-react';
+import { LayoutDashboard, Package, DollarSign, Settings, LogOut, Menu, X, Bell, ChevronDown, ExternalLink, CheckCircle2, AlertCircle, Shield } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 const navigation = [
@@ -39,74 +39,127 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
   const isPending = session?.user?.status === 'PENDING';
 
   return (
-    <div className="min-h-screen bg-aa-dark">
-      {sidebarOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
+    <div className="min-h-screen bg-aa-bg-primary premium-bg">
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black/60 z-40 lg:hidden backdrop-blur-sm transition-all"
+          onClick={() => setSidebarOpen(false)}
+        />
+      )}
 
-      <aside className={cn('fixed top-0 left-0 z-50 h-full w-64 bg-aa-dark-500 border-r border-white/5 transform transition-transform duration-300 lg:translate-x-0', sidebarOpen ? 'translate-x-0' : '-translate-x-full')}>
+      {/* Sidebar */}
+      <aside className={cn(
+        'fixed top-0 left-0 z-50 h-full w-64 bg-aa-bg-secondary/80 backdrop-blur-xl border-r border-white/5 transform transition-transform duration-300 lg:translate-x-0',
+        sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+      )}>
         <div className="flex flex-col h-full">
-          <div className="flex items-center justify-between h-16 px-4 border-b border-white/5">
+          {/* Logo Section */}
+          <div className="flex items-center justify-between h-20 px-6 border-b border-white/5">
             <Link href="/dashboard" className="flex items-center gap-3">
-              <img src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg" alt="AA" className="h-10 w-auto" />
-              <div className="flex flex-col">
-                <span className="text-sm font-bold text-white">AFFILIATE</span>
-                <span className="text-xs font-bold text-aa-gold">AUTOMATED</span>
-              </div>
+              <img
+                src="https://raw.githubusercontent.com/thoard93/Affiliate-Automated/main/1F16E01D-3325-4BF5-8053-40AF1C7191C9_4_5005_c.jpeg"
+                alt="Affiliate Automated"
+                className="h-10 w-auto rounded-lg shadow-lg shadow-aa-orange/10"
+              />
             </Link>
-            <button onClick={() => setSidebarOpen(false)} className="lg:hidden p-2 text-white/60 hover:text-white">
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="lg:hidden p-2 text-white/40 hover:text-white transition-colors"
+            >
               <X className="w-5 h-5" />
             </button>
           </div>
 
-          <nav className="flex-1 p-4 space-y-1">
+          {/* Navigation */}
+          <nav className="flex-1 p-4 space-y-1 mt-4">
             {navigation.map((item) => {
               const isActive = pathname === item.href;
               return (
-                <Link key={item.name} href={item.href} className={cn('flex items-center gap-3 px-4 py-3 rounded-lg transition-all', isActive ? 'bg-aa-orange/10 text-aa-orange' : 'text-white/60 hover:text-white hover:bg-white/5')}>
-                  <item.icon className="w-5 h-5" />
-                  <span className="font-medium">{item.name}</span>
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className={cn(
+                    'flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 group',
+                    isActive ? 'nav-item-active' : 'text-white/50 hover:text-white hover:bg-white/5'
+                  )}
+                >
+                  <item.icon className={cn(
+                    "w-5 h-5 transition-colors",
+                    isActive ? "text-aa-orange" : "text-white/40 group-hover:text-white"
+                  )} />
+                  <span className="font-semibold tracking-wide text-sm">{item.name}</span>
                 </Link>
               );
             })}
           </nav>
 
+          {/* TikTok Connection Status */}
           <div className="p-4 border-t border-white/5">
-            <div className="p-4 rounded-lg bg-aa-dark-600">
-              <div className="flex items-center gap-2 mb-2">
+            <div className="p-4 rounded-xl bg-white/5 border border-white/5 relative overflow-hidden group">
+              <div className="absolute top-0 right-0 w-16 h-16 bg-aa-orange/5 blur-2xl rounded-full -mr-8 -mt-8" />
+              <div className="flex items-center gap-3 mb-2 relative z-10">
                 {session?.user?.creatorId ? (
-                  <><CheckCircle2 className="w-4 h-4 text-aa-success" /><span className="text-sm font-medium text-white">TikTok Connected</span></>
+                  <>
+                    <div className="w-2 h-2 rounded-full bg-aa-success animate-pulse" />
+                    <span className="text-xs font-bold text-white/90">TikTok Connected</span>
+                  </>
                 ) : (
-                  <><AlertCircle className="w-4 h-4 text-aa-orange" /><span className="text-sm font-medium text-white">Connect TikTok</span></>
+                  <>
+                    <div className="w-2 h-2 rounded-full bg-aa-orange animate-pulse" />
+                    <span className="text-xs font-bold text-white/90 text-aa-orange">Connect TikTok</span>
+                  </>
                 )}
               </div>
-              {!session?.user?.creatorId && <Link href="/dashboard/settings" className="text-xs text-aa-orange hover:underline">Connect to access products →</Link>}
+              {!session?.user?.creatorId && (
+                <Link
+                  href="/dashboard/settings"
+                  className="text-[10px] font-bold text-white/40 hover:text-aa-orange transition-colors uppercase tracking-widest block"
+                >
+                  Action Required →
+                </Link>
+              )}
             </div>
           </div>
 
+          {/* User Profile / Menu */}
           <div className="p-4 border-t border-white/5">
             <div className="relative">
-              <button onClick={() => setUserMenuOpen(!userMenuOpen)} className="w-full flex items-center gap-3 p-3 rounded-lg hover:bg-white/5 transition-colors">
-                <div className="w-10 h-10 rounded-full bg-aa-dark-400 flex items-center justify-center overflow-hidden">
-                  {session?.user?.image ? <img src={session.user.image} alt={session.user.name || ''} className="w-full h-full object-cover" /> : <span className="text-lg font-medium text-white">{session?.user?.name?.[0] || '?'}</span>}
+              <button
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+                className="w-full flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-all duration-300 border border-transparent hover:border-white/5 group"
+              >
+                <div className="w-10 h-10 rounded-full bg-aa-bg-tertiary border border-white/10 flex items-center justify-center overflow-hidden transition-transform group-hover:scale-105">
+                  {session?.user?.image ? (
+                    <img src={session.user.image} alt={session.user.name || ''} className="w-full h-full object-cover" />
+                  ) : (
+                    <Shield className="w-5 h-5 text-aa-orange" />
+                  )}
                 </div>
                 <div className="flex-1 text-left">
-                  <p className="text-sm font-medium text-white truncate">{session?.user?.name || 'User'}</p>
-                  <p className="text-xs text-white/40 truncate">{session?.user?.email || 'No email'}</p>
+                  <p className="text-sm font-bold text-white truncate">{session?.user?.name || 'Creator'}</p>
+                  <p className="text-[10px] text-aa-orange uppercase font-bold tracking-widest opacity-80">Partner</p>
                 </div>
-                <ChevronDown className={cn('w-4 h-4 text-white/40 transition-transform', userMenuOpen && 'rotate-180')} />
+                <ChevronDown className={cn('w-4 h-4 text-white/40 transition-transform duration-300', userMenuOpen && 'rotate-180')} />
               </button>
+
               {userMenuOpen && (
-                <div className="absolute bottom-full left-0 right-0 mb-2 p-2 bg-aa-dark-400 rounded-lg border border-white/10 shadow-lg">
-                  <button onClick={() => signOut({ callbackUrl: '/' })} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-red-400 hover:bg-red-400/10 rounded-md transition-colors">
-                    <LogOut className="w-4 h-4" />Sign Out
-                  </button>
+                <div className="absolute bottom-full left-0 right-0 mb-2 p-2 bg-aa-bg-tertiary rounded-xl border border-white/10 shadow-2xl animate-fade-in-up">
                   {(session?.user?.role === 'ADMIN' || session?.user?.role === 'SUPER_ADMIN') && (
-                    <div className="mt-2 pt-2 border-t border-white/5">
-                      <Link href="/admin" className="flex items-center gap-2 px-3 py-2 text-sm text-aa-gold hover:bg-aa-gold/10 rounded-md transition-colors">
-                        <LayoutDashboard className="w-4 h-4" />
-                        Admin View
-                      </Link>
-                    </div>
+                    <Link
+                      href="/admin"
+                      className="flex items-center gap-2 px-3 py-2.5 text-sm text-aa-gold hover:bg-aa-gold/10 rounded-lg transition-colors font-medium border border-transparent hover:border-aa-gold/20 mb-1"
+                    >
+                      <LayoutDashboard className="w-4 h-4" />
+                      Admin View
+                    </Link>
                   )}
+                  <button
+                    onClick={() => signOut({ callbackUrl: '/' })}
+                    className="w-full flex items-center gap-2 px-3 py-2.5 text-sm text-red-400 hover:bg-red-400/10 rounded-lg transition-colors text-left font-medium"
+                  >
+                    <LogOut className="w-4 h-4" />
+                    Sign Out
+                  </button>
                 </div>
               )}
             </div>
@@ -114,37 +167,59 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         </div>
       </aside>
 
+      {/* Main Content Area */}
       <div className="lg:pl-64">
-        <header className="sticky top-0 z-30 h-16 bg-aa-dark/80 backdrop-blur-lg border-b border-white/5">
-          <div className="flex items-center justify-between h-full px-4 lg:px-8">
-            <button onClick={() => setSidebarOpen(true)} className="lg:hidden p-2 text-white/60 hover:text-white">
+        {/* Header */}
+        <header className="sticky top-0 z-30 h-20 bg-aa-bg-primary/40 backdrop-blur-xl border-b border-white/5">
+          <div className="flex items-center justify-between h-full px-6 lg:px-10">
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className="lg:hidden p-2 text-white/60 hover:text-white transition-colors"
+            >
               <Menu className="w-6 h-6" />
             </button>
             <div className="flex-1" />
-            <div className="flex items-center gap-4">
-              <button className="relative p-2 text-white/60 hover:text-white transition-colors">
+            <div className="flex items-center gap-6">
+              {/* Notification Bell */}
+              <button className="relative p-2.5 text-white/40 hover:text-white hover:bg-white/5 rounded-xl transition-all duration-300">
                 <Bell className="w-5 h-5" />
-                <span className="absolute top-1 right-1 w-2 h-2 bg-aa-orange rounded-full" />
+                <span className="absolute top-2.5 right-2.5 w-2 h-2 bg-aa-orange rounded-full border-2 border-aa-bg-primary shadow-[0_0_8px_rgba(255,107,0,0.5)]" />
               </button>
-              <a href="https://discord.gg/affiliateautomated" target="_blank" rel="noopener noreferrer" className="hidden sm:flex items-center gap-2 px-4 py-2 bg-[#5865F2]/10 text-[#5865F2] rounded-lg hover:bg-[#5865F2]/20 transition-colors">
-                <span className="text-sm font-medium">Discord</span>
-                <ExternalLink className="w-4 h-4" />
+
+              {/* Discord Link */}
+              <a
+                href="https://discord.gg/affiliateautomated"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden sm:flex items-center gap-2.5 px-5 py-2.5 bg-[#5865F2]/10 text-[#5865F2] border border-[#5865F2]/20 rounded-xl hover:bg-[#5865F2]/20 transition-all duration-300 group"
+              >
+                <span className="text-xs font-bold uppercase tracking-widest group-hover:tracking-[0.1em] transition-all">Support</span>
+                <ExternalLink className="w-3.5 h-3.5" />
               </a>
             </div>
           </div>
         </header>
 
+        {/* Pending Approval Banner */}
         {isPending && (
-          <div className="bg-aa-orange/10 border-b border-aa-orange/20 px-4 lg:px-8 py-3">
-            <div className="flex items-center gap-3">
-              <AlertCircle className="w-5 h-5 text-aa-orange" />
-              <p className="text-sm text-aa-orange">Your account is pending approval. You will have full access once approved by an admin.</p>
+          <div className="bg-aa-orange/5 border-b border-aa-orange/20 px-6 lg:px-10 py-4 flex items-center gap-4 animate-fade-in-up">
+            <div className="w-10 h-10 rounded-xl bg-aa-orange/10 flex items-center justify-center shrink-0">
+              <AlertCircle className="w-5 h-5 text-aa-orange animate-pulse" />
+            </div>
+            <div>
+              <p className="text-sm font-bold text-white">Application Pending</p>
+              <p className="text-xs text-aa-orange/80 font-medium">Your account is currently under review. High-boost products will be available upon approval.</p>
             </div>
           </div>
         )}
 
-        <main className="p-4 lg:p-8">{children}</main>
+        {/* Page Content */}
+        <main className="p-6 lg:p-10 animate-fade-in-up">
+          {children}
+        </main>
       </div>
     </div>
+  );
+}
   );
 }

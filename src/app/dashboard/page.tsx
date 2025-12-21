@@ -86,83 +86,96 @@ export default function DashboardPage() {
   const { data: session } = useSession();
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-10">
       {/* Welcome Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-white">
-            Welcome back, {session?.user?.name?.split(' ')[0] || 'Creator'}! 👋
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Welcome back, <span className="text-gradient">{session?.user?.name?.split(' ')[0] || 'Creator'}</span>! 👋
           </h1>
-          <p className="text-white/60 mt-1">
-            Here's what's happening with your affiliate business
+          <p className="text-white/40 mt-2 font-medium">
+            Here's your performance snapshot for today.
           </p>
         </div>
         <Link
           href="/dashboard/products"
-          className="btn-primary flex items-center gap-2 self-start"
+          className="btn-primary flex items-center gap-2.5 self-start group"
         >
-          <Package className="w-4 h-4" />
-          Browse Products
+          <Sparkles className="w-4 h-4 group-hover:animate-pulse" />
+          <span>Explore Products</span>
         </Link>
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6">
-        <div className="stat-card">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-lg bg-aa-success/10 flex items-center justify-center">
-              <DollarSign className="w-5 h-5 text-aa-success" />
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="stat-card group">
+          <div className="flex items-center justify-between mb-6">
+            <div className="w-12 h-12 rounded-xl bg-aa-success/10 flex items-center justify-center border border-aa-success/20 group-hover:scale-110 transition-transform">
+              <DollarSign className="w-6 h-6 text-aa-success" />
             </div>
-            <span className="stat-change-positive">+{mockStats.earningsChange}%</span>
+            <div className="flex flex-col items-end">
+              <span className="stat-change-positive">+{mockStats.earningsChange}%</span>
+              <span className="text-[10px] text-white/30 uppercase tracking-widest mt-1">vs last week</span>
+            </div>
           </div>
-          <div className="stat-value">{formatCurrency(mockStats.totalEarnings)}</div>
-          <div className="stat-label">Total Earnings</div>
+          <div className="stat-value text-3xl">{formatCurrency(mockStats.totalEarnings)}</div>
+          <div className="stat-label font-bold text-white/40 uppercase tracking-widest text-[10px]">Total Earnings</div>
         </div>
 
-        <div className="stat-card">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-lg bg-aa-orange/10 flex items-center justify-center">
-              <Clock className="w-5 h-5 text-aa-orange" />
+        <div className="stat-card group">
+          <div className="flex items-center justify-between mb-6">
+            <div className="w-12 h-12 rounded-xl bg-aa-orange/10 flex items-center justify-center border border-aa-orange/20 group-hover:scale-110 transition-transform">
+              <Clock className="w-6 h-6 text-aa-orange" />
             </div>
+            <span className="text-[10px] text-white/30 uppercase tracking-widest">In Review</span>
           </div>
-          <div className="stat-value">{formatCurrency(mockStats.pendingEarnings)}</div>
-          <div className="stat-label">Pending Earnings</div>
+          <div className="stat-value text-3xl">{formatCurrency(mockStats.pendingEarnings)}</div>
+          <div className="stat-label font-bold text-white/40 uppercase tracking-widest text-[10px]">Pending Payouts</div>
         </div>
 
-        <div className="stat-card">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-lg bg-aa-gold/10 flex items-center justify-center">
-              <Package className="w-5 h-5 text-aa-gold" />
+        <div className="stat-card group">
+          <div className="flex items-center justify-between mb-6">
+            <div className="w-12 h-12 rounded-xl bg-aa-gold/10 flex items-center justify-center border border-aa-gold/20 group-hover:scale-110 transition-transform">
+              <Package className="w-6 h-6 text-aa-gold" />
             </div>
+            <span className="badge-gold">Active</span>
           </div>
-          <div className="stat-value">{mockStats.productsInShowcase}</div>
-          <div className="stat-label">Products in Showcase</div>
+          <div className="stat-value text-3xl">{mockStats.productsInShowcase}</div>
+          <div className="stat-label font-bold text-white/40 uppercase tracking-widest text-[10px]">Showcase Items</div>
         </div>
 
-        <div className="stat-card">
-          <div className="flex items-center justify-between mb-4">
-            <div className="w-10 h-10 rounded-lg bg-purple-500/10 flex items-center justify-center">
-              <ShoppingCart className="w-5 h-5 text-purple-400" />
+        <div className="stat-card group">
+          <div className="flex items-center justify-between mb-6">
+            <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center border border-purple-500/20 group-hover:scale-110 transition-transform">
+              <ShoppingCart className="w-6 h-6 text-purple-400" />
             </div>
-            <span className="stat-change-positive">+{mockStats.salesChange}%</span>
+            <div className="flex flex-col items-end">
+              <span className="stat-change-positive">+{mockStats.salesChange}%</span>
+              <span className="text-[10px] text-white/30 uppercase tracking-widest mt-1">Trending</span>
+            </div>
           </div>
-          <div className="stat-value">{mockStats.totalSales}</div>
-          <div className="stat-label">Total Sales</div>
+          <div className="stat-value text-3xl">{mockStats.totalSales}</div>
+          <div className="stat-label font-bold text-white/40 uppercase tracking-widest text-[10px]">Total Sales</div>
         </div>
       </div>
 
       {/* Main Content Grid */}
-      <div className="grid lg:grid-cols-3 gap-6">
-        {/* Hot Products */}
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* Hot Products Section */}
         <div className="lg:col-span-2 card">
-          <div className="flex items-center justify-between mb-6">
-            <div className="flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-aa-orange" />
-              <h2 className="text-lg font-semibold text-white">Hot Products</h2>
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-3">
+              <div className="p-2 rounded-lg bg-aa-orange-dim">
+                <Sparkles className="w-5 h-5 text-aa-orange" />
+              </div>
+              <div>
+                <h2 className="text-xl font-bold text-white">Boosted Products</h2>
+                <p className="text-xs text-white/40 font-medium mt-0.5">Recommended for your audience</p>
+              </div>
             </div>
             <Link
               href="/dashboard/products"
-              className="text-sm text-aa-orange hover:underline flex items-center gap-1"
+              className="text-xs font-bold text-aa-orange hover:text-white transition-colors flex items-center gap-2 uppercase tracking-widest"
             >
               View all
               <ArrowRight className="w-4 h-4" />
@@ -173,31 +186,37 @@ export default function DashboardPage() {
             {mockRecentProducts.map((product) => (
               <div
                 key={product.id}
-                className="flex items-center gap-4 p-4 rounded-lg bg-aa-dark-600 hover:bg-aa-dark-400 transition-colors cursor-pointer"
+                className="group relative flex items-center gap-5 p-4 rounded-xl hover:bg-white/5 border border-transparent hover:border-white/5 transition-all duration-300 cursor-pointer overflow-hidden"
               >
-                <div className="w-16 h-16 rounded-lg bg-aa-dark-400 flex items-center justify-center overflow-hidden">
-                  <Package className="w-8 h-8 text-white/20" />
+                <div className="absolute inset-0 bg-gradient-to-r from-aa-orange/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+
+                <div className="w-20 h-20 rounded-xl bg-aa-bg-tertiary border border-white/5 flex items-center justify-center overflow-hidden shrink-0 group-hover:scale-105 transition-transform">
+                  <Package className="w-10 h-10 text-white/10" />
                 </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-white truncate">{product.name}</h3>
-                  <div className="flex items-center gap-4 mt-1 text-sm">
-                    <span className="text-aa-success">
-                      {(product.aaRate * 100).toFixed(0)}% AA Rate
-                    </span>
-                    <span className="text-white/40">
-                      vs {(product.openCollabRate * 100).toFixed(0)}% Open
-                    </span>
-                    <span className="badge-gold">
-                      +{((product.aaRate - product.openCollabRate) * 100).toFixed(0)}% Bonus
-                    </span>
+
+                <div className="flex-1 min-w-0 relative z-10">
+                  <h3 className="font-bold text-white truncate group-hover:text-aa-orange transition-colors">{product.name}</h3>
+                  <div className="flex flex-wrap items-center gap-3 mt-2">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-aa-success/10 border border-aa-success/20">
+                      <TrendingUp className="w-3 h-3 text-aa-success" />
+                      <span className="text-[11px] font-bold text-aa-success">{(product.aaRate * 100).toFixed(0)}% Rate</span>
+                    </div>
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-aa-gold/10 border border-aa-gold/20">
+                      <Sparkles className="w-3 h-3 text-aa-gold" />
+                      <span className="text-[11px] font-bold text-aa-gold">+{((product.aaRate - product.openCollabRate) * 100).toFixed(0)}% Bonus</span>
+                    </div>
+                    {product.freeSample && (
+                      <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">Free Sample</span>
+                    )}
                   </div>
                 </div>
-                <div className="text-right">
-                  <div className="text-white font-medium">
+
+                <div className="text-right shrink-0 relative z-10">
+                  <div className="text-lg font-bold text-white">
                     ${product.price.min.toFixed(2)}
                   </div>
-                  <div className="text-xs text-white/40">
-                    {formatNumber(product.stock)} in stock
+                  <div className="text-[10px] font-bold text-white/30 uppercase tracking-widest mt-1">
+                    {formatNumber(product.stock)} Left
                   </div>
                 </div>
               </div>
@@ -205,50 +224,57 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Recent Activity */}
-        <div className="card">
-          <div className="flex items-center gap-2 mb-6">
-            <TrendingUp className="w-5 h-5 text-aa-orange" />
-            <h2 className="text-lg font-semibold text-white">Recent Activity</h2>
+        {/* Activity Feed */}
+        <div className="card h-fit">
+          <div className="flex items-center gap-3 mb-8">
+            <div className="p-2 rounded-lg bg-purple-500/10">
+              <TrendingUp className="w-5 h-5 text-purple-400" />
+            </div>
+            <div>
+              <h2 className="text-xl font-bold text-white">Live Feed</h2>
+              <p className="text-xs text-white/40 font-medium mt-0.5">Real-time updates</p>
+            </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-6">
             {mockRecentActivity.map((activity) => (
               <div
                 key={activity.id}
-                className="flex items-start gap-3 pb-4 border-b border-white/5 last:border-0 last:pb-0"
+                className="flex items-start gap-4"
               >
                 <div
-                  className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                    activity.type === 'sale'
-                      ? 'bg-aa-success/10'
-                      : 'bg-aa-orange/10'
-                  }`}
+                  className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 border ${activity.type === 'sale'
+                    ? 'bg-aa-success/10 border-aa-success/20'
+                    : 'bg-aa-orange/10 border-aa-orange/20'
+                    }`}
                 >
                   {activity.type === 'sale' ? (
-                    <DollarSign className="w-4 h-4 text-aa-success" />
+                    <DollarSign className="w-5 h-5 text-aa-success" />
                   ) : (
-                    <CheckCircle2 className="w-4 h-4 text-aa-orange" />
+                    <CheckCircle2 className="w-5 h-5 text-aa-orange" />
                   )}
                 </div>
-                <div className="flex-1">
-                  <p className="text-sm text-white">
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-white/90">
                     {activity.type === 'sale' ? (
                       <>
-                        Sale on <span className="font-medium">{activity.product}</span>
+                        Sale: <span className="font-bold text-white">{activity.product}</span>
                       </>
                     ) : (
                       <>
-                        Added <span className="font-medium">{activity.product}</span> to showcase
+                        Listed <span className="font-bold text-white">{activity.product}</span>
                       </>
                     )}
                   </p>
                   {activity.commission && (
-                    <p className="text-sm text-aa-success mt-0.5">
-                      +{formatCurrency(activity.commission)} commission
-                    </p>
+                    <div className="inline-flex items-center gap-1.5 mt-1">
+                      <span className="text-xs font-bold text-aa-success">+{formatCurrency(activity.commission)} Earned</span>
+                    </div>
                   )}
-                  <p className="text-xs text-white/40 mt-1">{activity.time}</p>
+                  <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest mt-1.5 flex items-center gap-1.5">
+                    <Clock className="w-3 h-3" />
+                    {activity.time}
+                  </p>
                 </div>
               </div>
             ))}
@@ -256,51 +282,52 @@ export default function DashboardPage() {
 
           <Link
             href="/dashboard/earnings"
-            className="block mt-4 text-center text-sm text-aa-orange hover:underline"
+            className="btn-secondary w-full mt-8 py-3 text-xs flex items-center justify-center gap-2 group"
           >
-            View all activity →
+            <span>Full History</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      {/* Action Hub */}
+      <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         <Link
           href="/dashboard/products"
-          className="card-interactive flex items-center gap-4"
+          className="card-interactive group"
         >
-          <div className="w-12 h-12 rounded-xl bg-aa-orange/10 flex items-center justify-center">
-            <Package className="w-6 h-6 text-aa-orange" />
+          <div className="w-14 h-14 rounded-2xl bg-aa-orange/10 flex items-center justify-center border border-aa-orange/20 group-hover:scale-110 transition-transform">
+            <Package className="w-7 h-7 text-aa-orange" />
           </div>
           <div>
-            <h3 className="font-semibold text-white">Browse Products</h3>
-            <p className="text-sm text-white/60">213+ boosted products available</p>
+            <h3 className="text-lg font-bold text-white group-hover:text-aa-orange transition-colors">Boost Showcase</h3>
+            <p className="text-sm text-white/40 font-medium">Add high-commission products</p>
           </div>
         </Link>
 
         <Link
           href="/dashboard/earnings"
-          className="card-interactive flex items-center gap-4"
+          className="card-interactive group"
         >
-          <div className="w-12 h-12 rounded-xl bg-aa-success/10 flex items-center justify-center">
-            <DollarSign className="w-6 h-6 text-aa-success" />
+          <div className="w-14 h-14 rounded-2xl bg-aa-success/10 flex items-center justify-center border border-aa-success/20 group-hover:scale-110 transition-transform">
+            <DollarSign className="w-7 h-7 text-aa-success" />
           </div>
           <div>
-            <h3 className="font-semibold text-white">Track Earnings</h3>
-            <p className="text-sm text-white/60">View commissions & payouts</p>
+            <h3 className="text-lg font-bold text-white group-hover:text-aa-success transition-colors">Payout Center</h3>
+            <p className="text-sm text-white/40 font-medium">Manage your earnings & withdrawals</p>
           </div>
         </Link>
 
         <Link
           href="/dashboard/settings"
-          className="card-interactive flex items-center gap-4"
+          className="card-interactive group"
         >
-          <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center">
-            <Sparkles className="w-6 h-6 text-purple-400" />
+          <div className="w-14 h-14 rounded-2xl bg-purple-500/10 flex items-center justify-center border border-purple-500/20 group-hover:scale-110 transition-transform">
+            <Sparkles className="w-7 h-7 text-purple-400" />
           </div>
           <div>
-            <h3 className="font-semibold text-white">Connect TikTok</h3>
-            <p className="text-sm text-white/60">Link your TikTok Shop account</p>
+            <h3 className="text-lg font-bold text-white group-hover:text-purple-400 transition-colors">Connect TikTok</h3>
+            <p className="text-sm text-white/40 font-medium">Sync with TikTok Shop Creator</p>
           </div>
         </Link>
       </div>

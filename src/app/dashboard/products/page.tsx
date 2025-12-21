@@ -193,35 +193,65 @@ export default function ProductsPage() {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      {/* Header */}
-      <div>
-        <h1 className="text-2xl sm:text-3xl font-bold text-white">Products</h1>
-        <p className="text-white/60 mt-1">
-          Browse 213+ products with boosted commission rates
-        </p>
+    <div className="space-y-8">
+      {/* Header Section */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6">
+        <div>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+            Product <span className="text-gradient">Catalog</span>
+          </h1>
+          <p className="text-white/40 mt-2 font-medium">
+            Browse 213+ high-commission products ready for your showcase.
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          <div className="flex bg-aa-bg-secondary/40 backdrop-blur-md rounded-xl p-1 border border-white/5">
+            <button
+              onClick={() => setViewMode('grid')}
+              className={cn(
+                'p-2.5 rounded-lg transition-all duration-300',
+                viewMode === 'grid'
+                  ? 'bg-aa-orange text-white shadow-lg shadow-aa-orange/20'
+                  : 'text-white/40 hover:text-white'
+              )}
+            >
+              <Grid3X3 className="w-5 h-5" />
+            </button>
+            <button
+              onClick={() => setViewMode('list')}
+              className={cn(
+                'p-2.5 rounded-lg transition-all duration-300',
+                viewMode === 'list'
+                  ? 'bg-aa-orange text-white shadow-lg shadow-aa-orange/20'
+                  : 'text-white/40 hover:text-white'
+              )}
+            >
+              <List className="w-5 h-5" />
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Search and Filters Bar */}
-      <div className="flex flex-col sm:flex-row gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
         {/* Search */}
-        <div className="relative flex-1">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
+        <div className="md:col-span-6 relative group">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40 group-focus-within:text-aa-orange transition-colors" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search products..."
-            className="input-field pl-12"
+            placeholder="Search products by name or category..."
+            className="input-field pl-12 h-14"
           />
         </div>
 
         {/* Category Dropdown */}
-        <div className="relative">
+        <div className="md:col-span-3 relative">
           <select
             value={selectedCategory}
             onChange={(e) => setSelectedCategory(e.target.value)}
-            className="input-field pr-10 appearance-none cursor-pointer min-w-[180px]"
+            className="input-field pr-10 appearance-none cursor-pointer h-14"
           >
             {categories.map((cat) => (
               <option key={cat} value={cat}>
@@ -232,146 +262,137 @@ export default function ProductsPage() {
           <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
         </div>
 
-        {/* Sort Dropdown */}
-        <div className="relative">
-          <select
-            value={sortBy}
-            onChange={(e) => setSortBy(e.target.value)}
-            className="input-field pr-10 appearance-none cursor-pointer min-w-[160px]"
-          >
-            {sortOptions.map((opt) => (
-              <option key={opt.value} value={opt.value}>
-                {opt.label}
-              </option>
-            ))}
-          </select>
-          <SortAsc className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
-        </div>
-
-        {/* Filter Toggle */}
-        <button
-          onClick={() => setShowFilters(!showFilters)}
-          className={cn(
-            'btn-secondary flex items-center gap-2',
-            showFilters && 'bg-aa-orange/10 border-aa-orange/30 text-aa-orange'
-          )}
-        >
-          <Filter className="w-4 h-4" />
-          Filters
-        </button>
-
-        {/* View Mode Toggle */}
-        <div className="flex bg-aa-dark-500 rounded-lg p-1">
+        {/* Sort & Filter Toggle */}
+        <div className="md:col-span-3 flex gap-4">
+          <div className="relative flex-1">
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value)}
+              className="input-field pr-10 appearance-none cursor-pointer h-14"
+            >
+              {sortOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {opt.label}
+                </option>
+              ))}
+            </select>
+            <SortAsc className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-white/40 pointer-events-none" />
+          </div>
           <button
-            onClick={() => setViewMode('grid')}
+            onClick={() => setShowFilters(!showFilters)}
             className={cn(
-              'p-2 rounded-md transition-colors',
-              viewMode === 'grid'
-                ? 'bg-aa-orange text-white'
-                : 'text-white/40 hover:text-white'
+              'w-14 h-14 rounded-xl border flex items-center justify-center transition-all duration-300',
+              showFilters
+                ? 'bg-aa-orange/10 border-aa-orange/40 text-aa-orange'
+                : 'bg-aa-bg-secondary/40 border-white/5 text-white/40 hover:text-white hover:bg-white/5'
             )}
           >
-            <Grid3X3 className="w-5 h-5" />
-          </button>
-          <button
-            onClick={() => setViewMode('list')}
-            className={cn(
-              'p-2 rounded-md transition-colors',
-              viewMode === 'list'
-                ? 'bg-aa-orange text-white'
-                : 'text-white/40 hover:text-white'
-            )}
-          >
-            <List className="w-5 h-5" />
+            <Filter className="w-5 h-5" />
           </button>
         </div>
       </div>
 
       {/* Expanded Filters */}
       {showFilters && (
-        <div className="card animate-slide-down">
-          <div className="flex flex-wrap gap-4">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input
-                type="checkbox"
-                checked={freeSampleOnly}
-                onChange={(e) => setFreeSampleOnly(e.target.checked)}
-                className="w-4 h-4 rounded border-white/20 bg-aa-dark-500 text-aa-orange focus:ring-aa-orange"
-              />
-              <span className="text-sm text-white">Free Sample Available</span>
+        <div className="card border-aa-orange/20 animate-fade-in-up">
+          <div className="flex flex-wrap gap-6">
+            <label className="flex items-center gap-3 cursor-pointer group">
+              <div className="relative flex items-center">
+                <input
+                  type="checkbox"
+                  checked={freeSampleOnly}
+                  onChange={(e) => setFreeSampleOnly(e.target.checked)}
+                  className="w-5 h-5 rounded-lg border-white/10 bg-white/5 text-aa-orange focus:ring-aa-orange transition-all"
+                />
+              </div>
+              <span className="text-sm font-bold text-white/60 group-hover:text-white transition-colors">Free Sample Available</span>
             </label>
           </div>
         </div>
       )}
 
-      {/* Active Filters */}
+      {/* Active Filters Bar */}
       {(searchQuery || selectedCategory !== 'All Categories' || freeSampleOnly) && (
-        <div className="flex flex-wrap gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest mr-2">Filters:</span>
           {searchQuery && (
             <button
               onClick={() => setSearchQuery('')}
-              className="flex items-center gap-1 px-3 py-1 bg-aa-dark-500 rounded-full text-sm text-white/60 hover:text-white"
+              className="flex items-center gap-2 px-3 py-1.5 bg-aa-orange/10 border border-aa-orange/20 rounded-lg text-xs font-bold text-aa-orange hover:bg-aa-orange/20"
             >
-              Search: {searchQuery}
-              <X className="w-3 h-3" />
+              "{searchQuery}"
+              <X className="w-3.5 h-3.5" />
             </button>
           )}
           {selectedCategory !== 'All Categories' && (
             <button
               onClick={() => setSelectedCategory('All Categories')}
-              className="flex items-center gap-1 px-3 py-1 bg-aa-dark-500 rounded-full text-sm text-white/60 hover:text-white"
+              className="flex items-center gap-2 px-3 py-1.5 bg-aa-gold/10 border border-aa-gold/20 rounded-lg text-xs font-bold text-aa-gold hover:bg-aa-gold/20"
             >
               {selectedCategory}
-              <X className="w-3 h-3" />
+              <X className="w-3.5 h-3.5" />
             </button>
           )}
           {freeSampleOnly && (
             <button
               onClick={() => setFreeSampleOnly(false)}
-              className="flex items-center gap-1 px-3 py-1 bg-aa-dark-500 rounded-full text-sm text-white/60 hover:text-white"
+              className="flex items-center gap-2 px-3 py-1.5 bg-aa-success/10 border border-aa-success/20 rounded-lg text-xs font-bold text-aa-success hover:bg-aa-success/20"
             >
-              Free Sample
-              <X className="w-3 h-3" />
+              Free Samples
+              <X className="w-3.5 h-3.5" />
             </button>
           )}
+          <button
+            onClick={() => {
+              setSearchQuery('');
+              setSelectedCategory('All Categories');
+              setFreeSampleOnly(false);
+            }}
+            className="text-[10px] font-bold text-white/20 hover:text-white uppercase tracking-widest ml-2 underline underline-offset-4"
+          >
+            Clear All
+          </button>
         </div>
       )}
 
       {/* Results Count */}
-      <p className="text-sm text-white/40">
-        Showing {filteredProducts.length} of {mockProducts.length} products
-      </p>
+      <div className="flex items-center justify-between">
+        <p className="text-xs font-bold text-white/30 uppercase tracking-widest">
+          Found {filteredProducts.length} Results
+        </p>
+      </div>
 
-      {/* Products Grid/List */}
-      {viewMode === 'grid' ? (
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filteredProducts.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAdd={() => handleAddToShowcase(product.tiktokProductId)}
-            />
-          ))}
-        </div>
+      {/* Products Display */}
+      {filteredProducts.length > 0 ? (
+        viewMode === 'grid' ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in-up">
+            {filteredProducts.map((product) => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAdd={() => handleAddToShowcase(product.tiktokProductId)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="space-y-4 animate-fade-in-up">
+            {filteredProducts.map((product) => (
+              <ProductListItem
+                key={product.id}
+                product={product}
+                onAdd={() => handleAddToShowcase(product.tiktokProductId)}
+              />
+            ))}
+          </div>
+        )
       ) : (
-        <div className="space-y-3">
-          {filteredProducts.map((product) => (
-            <ProductListItem
-              key={product.id}
-              product={product}
-              onAdd={() => handleAddToShowcase(product.tiktokProductId)}
-            />
-          ))}
-        </div>
-      )}
-
-      {/* Empty State */}
-      {filteredProducts.length === 0 && (
-        <div className="text-center py-16">
-          <Package className="w-16 h-16 text-white/20 mx-auto mb-4" />
-          <h3 className="text-lg font-medium text-white mb-2">No products found</h3>
-          <p className="text-white/60">
-            Try adjusting your search or filters
+        <div className="card flex flex-col items-center justify-center py-24 text-center border-dashed border-white/10 opacity-60">
+          <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center mb-6">
+            <Package className="w-10 h-10 text-white/20" />
+          </div>
+          <h3 className="text-xl font-bold text-white mb-2">No products found</h3>
+          <p className="text-sm text-white/40 max-w-xs mx-auto">
+            Try adjusting your search query or filters to find what you're looking for.
           </p>
         </div>
       )}
@@ -390,78 +411,87 @@ function ProductCard({
   const bonusRate = product.aaCommissionRate - product.openCollabRate;
 
   return (
-    <div className="card group hover:border-aa-orange/30 transition-all">
-      {/* Image */}
-      <div className="relative aspect-square rounded-lg bg-aa-dark-400 mb-4 overflow-hidden">
+    <div className="card group hover:border-aa-orange/40 transition-all duration-500 hover:-translate-y-1 h-full flex flex-col relative overflow-hidden">
+      {/* Background Glow */}
+      <div className="absolute -top-24 -right-24 w-48 h-48 bg-aa-orange/5 blur-3xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+
+      {/* Image Container */}
+      <div className="relative aspect-[4/3] rounded-xl bg-aa-bg-tertiary border border-white/5 mb-5 overflow-hidden group-hover:border-aa-orange/20 transition-colors">
         {product.imageUrl ? (
           <img
             src={product.imageUrl}
             alt={product.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Package className="w-12 h-12 text-white/10" />
+          <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/5 to-transparent">
+            <Package className="w-14 h-14 text-white/10 group-hover:text-white/20 transition-colors" />
           </div>
         )}
 
-        {/* Badges */}
-        <div className="absolute top-2 left-2 flex flex-col gap-1">
-          <span className="badge-gold text-xs">
-            +{formatPercent(bonusRate, 0)} Bonus
-          </span>
+        {/* Badges Overlay */}
+        <div className="absolute top-3 left-3 flex flex-col gap-2 pointer-events-none">
+          <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-aa-gold text-aa-bg-primary text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl shadow-aa-gold/20">
+            <Sparkles className="w-3 h-3" />
+            {formatPercent(bonusRate, 0)} Bonus
+          </div>
           {product.freeSampleAvailable && (
-            <span className="badge-success text-xs">
-              <Gift className="w-3 h-3 mr-1" />
-              Free Sample
-            </span>
+            <div className="flex items-center gap-1.5 px-2.5 py-1.5 bg-aa-success/90 text-white text-[10px] font-black uppercase tracking-widest rounded-lg shadow-xl shadow-aa-success/20">
+              <Gift className="w-3 h-3" />
+              Sample
+            </div>
           )}
         </div>
       </div>
 
-      {/* Content */}
-      <div>
-        <p className="text-xs text-white/40 mb-1">{product.category}</p>
-        <h3 className="font-medium text-white line-clamp-2 mb-3 min-h-[48px]">
+      {/* Product Info */}
+      <div className="flex-1 flex flex-col">
+        <div className="flex items-center justify-between gap-2 mb-2">
+          <span className="text-[10px] font-black text-aa-orange uppercase tracking-widest opacity-80">{product.category}</span>
+          <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest">{formatNumber(product.stockCount)} Units</span>
+        </div>
+
+        <h3 className="font-bold text-white line-clamp-2 mb-4 group-hover:text-aa-orange transition-colors min-h-[2.5rem] leading-tight text-base">
           {product.name}
         </h3>
 
-        {/* Commission Rates */}
-        <div className="flex items-center gap-3 mb-3">
-          <div>
-            <span className="text-lg font-bold text-aa-success">
+        {/* Commission Metrics */}
+        <div className="grid grid-cols-2 gap-3 p-3 rounded-xl bg-white/5 border border-white/5 mb-6">
+          <div className="flex flex-col">
+            <span className="text-[9px] font-bold text-white/30 uppercase tracking-[0.1em] mb-1">AA Rate</span>
+            <span className="text-xl font-black text-aa-success leading-none">
               {formatPercent(product.aaCommissionRate, 0)}
             </span>
-            <span className="text-xs text-white/40 ml-1">AA Rate</span>
           </div>
-          <div className="text-white/20">vs</div>
-          <div>
-            <span className="text-sm text-white/60">
+          <div className="flex flex-col border-l border-white/10 pl-3">
+            <span className="text-[9px] font-bold text-white/30 uppercase tracking-[0.1em] mb-1">Market Avg</span>
+            <span className="text-xl font-black text-white/60 leading-none">
               {formatPercent(product.openCollabRate, 0)}
             </span>
-            <span className="text-xs text-white/40 ml-1">Open</span>
           </div>
         </div>
 
-        {/* Price & Stock */}
-        <div className="flex items-center justify-between mb-4 text-sm">
-          <span className="text-white">
-            ${product.priceMin.toFixed(2)} - ${product.priceMax.toFixed(2)}
-          </span>
-          <span className="text-white/40">
-            {formatNumber(product.stockCount)} in stock
-          </span>
-        </div>
+        {/* Pricing & CTA */}
+        <div className="mt-auto space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col">
+              <span className="text-[9px] font-bold text-white/30 uppercase tracking-widest mb-0.5">Price Range</span>
+              <span className="text-lg font-black text-white">
+                ${product.priceMin.toFixed(2)} - ${product.priceMax.toFixed(2)}
+              </span>
+            </div>
+          </div>
 
-        {/* Add Button */}
-        <button
-          onClick={onAdd}
-          className="w-full btn-primary flex items-center justify-center gap-2 py-2.5"
-        >
-          <TrendingUp className="w-4 h-4" />
-          Add to Showcase
-          <ExternalLink className="w-3 h-3" />
-        </button>
+          <button
+            onClick={onAdd}
+            className="w-full btn-primary h-12 flex items-center justify-center gap-3 relative overflow-hidden group/btn"
+          >
+            <div className="absolute inset-0 bg-white/10 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300" />
+            <TrendingUp className="w-4 h-4 relative z-10" />
+            <span className="font-black uppercase tracking-widest text-xs relative z-10">Add to Showcase</span>
+            <ExternalLink className="w-3.5 h-3.5 relative z-10 opacity-60" />
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -478,63 +508,76 @@ function ProductListItem({
   const bonusRate = product.aaCommissionRate - product.openCollabRate;
 
   return (
-    <div className="card flex items-center gap-4 hover:border-aa-orange/30 transition-all">
+    <div className="card group flex flex-col md:flex-row items-center gap-6 p-5 hover:border-aa-orange/40 transition-all duration-500">
       {/* Image */}
-      <div className="w-20 h-20 rounded-lg bg-aa-dark-400 flex-shrink-0 overflow-hidden">
+      <div className="w-full md:w-28 h-28 rounded-xl bg-aa-bg-tertiary border border-white/5 flex-shrink-0 overflow-hidden relative group-hover:border-aa-orange/20 transition-colors">
         {product.imageUrl ? (
           <img
             src={product.imageUrl}
             alt={product.name}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center">
-            <Package className="w-8 h-8 text-white/10" />
+          <div className="w-full h-full flex items-center justify-center bg-white/5">
+            <Package className="w-10 h-10 text-white/10" />
           </div>
         )}
       </div>
 
       {/* Content */}
       <div className="flex-1 min-w-0">
-        <div className="flex items-start gap-2 mb-1">
-          <h3 className="font-medium text-white truncate">{product.name}</h3>
-          <span className="badge-gold text-xs flex-shrink-0">
-            +{formatPercent(bonusRate, 0)}
-          </span>
-          {product.freeSampleAvailable && (
-            <span className="badge-success text-xs flex-shrink-0">
-              <Gift className="w-3 h-3" />
+        <div className="flex flex-wrap items-center gap-3 mb-2">
+          <span className="text-[10px] font-black text-aa-orange uppercase tracking-widest">{product.category}</span>
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-0.5 bg-aa-gold/10 border border-aa-gold/20 rounded-md text-[9px] font-bold text-aa-gold uppercase">
+              +{formatPercent(bonusRate, 0)} Bonus
             </span>
-          )}
+            {product.freeSampleAvailable && (
+              <span className="px-2 py-0.5 bg-aa-success/10 border border-aa-success/20 rounded-md text-[9px] font-bold text-aa-success uppercase">
+                Free Sample
+              </span>
+            )}
+          </div>
         </div>
-        <p className="text-xs text-white/40 mb-2">{product.category}</p>
-        <div className="flex items-center gap-4 text-sm">
-          <span className="text-aa-success font-medium">
-            {formatPercent(product.aaCommissionRate, 0)} AA
-          </span>
-          <span className="text-white/40">
-            vs {formatPercent(product.openCollabRate, 0)} Open
-          </span>
-          <span className="text-white/40">|</span>
-          <span className="text-white">
-            ${product.priceMin.toFixed(2)} - ${product.priceMax.toFixed(2)}
-          </span>
-          <span className="text-white/40">|</span>
-          <span className="text-white/40">
-            {formatNumber(product.stockCount)} stock
-          </span>
+
+        <h3 className="font-bold text-lg text-white truncate mb-1 group-hover:text-aa-orange transition-colors">
+          {product.name}
+        </h3>
+
+        <div className="flex flex-wrap items-center gap-5 text-sm">
+          <div className="flex items-center gap-2">
+            <span className="text-white/40 font-bold uppercase text-[10px] tracking-widest">AA Rate:</span>
+            <span className="text-aa-success font-black text-lg">{formatPercent(product.aaCommissionRate, 0)}</span>
+          </div>
+          <div className="w-1 h-1 rounded-full bg-white/10" />
+          <div className="flex items-center gap-2">
+            <span className="text-white/40 font-bold uppercase text-[10px] tracking-widest">Market:</span>
+            <span className="text-white/60 font-black">{formatPercent(product.openCollabRate, 0)}</span>
+          </div>
+          <div className="w-1 h-1 rounded-full bg-white/10" />
+          <div className="flex items-center gap-2">
+            <span className="text-white/40 font-bold uppercase text-[10px] tracking-widest">Price:</span>
+            <span className="text-white font-black">${product.priceMin.toFixed(2)} - ${product.priceMax.toFixed(2)}</span>
+          </div>
+          <div className="w-1 h-1 rounded-full bg-white/10" />
+          <div className="flex items-center gap-2">
+            <span className="text-white/40 font-bold uppercase text-[10px] tracking-widest">Stock:</span>
+            <span className="text-white/60 font-black">{formatNumber(product.stockCount)}</span>
+          </div>
         </div>
       </div>
 
       {/* Add Button */}
       <button
         onClick={onAdd}
-        className="btn-primary flex items-center gap-2 flex-shrink-0"
+        className="btn-primary w-full md:w-auto px-8 h-12 flex items-center justify-center gap-3 flex-shrink-0 group/btn"
       >
         <TrendingUp className="w-4 h-4" />
-        Add
-        <ExternalLink className="w-3 h-3" />
+        <span className="font-black uppercase tracking-widest text-xs">Add to Showcase</span>
+        <ExternalLink className="w-3.5 h-3.5 opacity-60 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
       </button>
     </div>
+  );
+}
   );
 }
